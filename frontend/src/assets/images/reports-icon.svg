@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.4142" version="1.1" viewBox="0 0 22 22" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(2e-5)">
+        <g transform="translate(2 2)">
+            <path d="m16.749 4.216-4.217-4.216h-11.281v18h15.498v-13.784zm-3.839-2.017 1.64 1.64h-1.64v-1.64zm2.551 14.513h-12.921v-15.424h9.082v3.839h3.839v11.585z" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <rect x="8.13" y="7.016" width="6.251" height="1.288" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <path d="m4.763 10.235-0.506-0.506-0.911 0.911 1.417 1.417 2.341-2.341-0.911-0.91-1.43 1.429z" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <path d="m4.763 13.444-0.506-0.506-0.911 0.91 1.417 1.417 2.341-2.34-0.911-0.911-1.43 1.43z" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <path d="m4.763 7.027-0.506-0.506-0.911 0.911 1.417 1.417 2.341-2.341-0.911-0.911-1.43 1.43z" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <rect x="8.13" y="10.226" width="6.251" height="1.288" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+        <g transform="translate(2 2)">
+            <rect x="8.13" y="13.437" width="6.251" height="1.288" fill="#4f4f4f" fill-rule="nonzero"/>
+        </g>
+    </g>
+</svg>

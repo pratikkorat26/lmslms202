@@ -1,0 +1,109 @@
+CMPE#202
+ 
+Learning Management System
+
+DATABASE TABLE Creation:
+1.	Course Table
+CourseID: Primary Key (INT)
+CourseName: VARCHAR(255)
+FacultyID: Foreign Key (INT)
+Semester: VARCHAR(50)
+PublishedStatus: VARCHAR(50)
+
+2.	FacultyTable
+FacultyID: Primary Key (INT)
+PasswordHash: VARCHAR(255)
+FacultyName: VARCHAR(255)
+
+
+3.	StudentTable
+StudentID: Primary Key (INT)
+PasswordHash: VARCHAR(255)
+StudentName: VARCHAR(255)
+
+4.	AdminTable
+AdminID: Primary Key (INT)
+PasswordHash: VARCHAR(255)
+AdminName: VARCHAR(255)
+
+5.	EnrollmentTable
+EnrollmentID: Primary Key (INT)
+CourseID: Foreign Key (INT)
+StudentID: Foreign Key (INT)
+
+6.	AssignmentTable
+AssignmentID: Primary Key (INT)
+CourseID: Foreign Key (INT)
+Title: VARCHAR(255)
+Description: TEXT
+Deadline: DATE
+
+7.	QuizTable
+QuizID: Primary Key (INT)
+CourseID: Foreign Key (INT)
+Title: VARCHAR(255)
+Description: TEXT
+TimeLimit: INT
+
+8.	GradeTable
+GradeID: Primary Key (INT)
+CourseID: Foreign Key (INT)
+StudentID: Foreign Key (INT)
+AssignmentID: Foreign Key (INT)
+QuizID: Foreign Key (INT)
+Grade: INT
+
+9.	AnnouncementTable
+AnnouncementID: Primary Key (INT)
+CourseID: Foreign Key (INT)
+Title: VARCHAR(255)
+Content: TEXT
+DatePosted: DATE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+For all Faculty:
+- GET /faculty/courses
+- POST /faculty/syllabus
+- GET /faculty/course/<course_id>/students
+- GET /faculty/course/<course_id>/grades
+- POST /faculty/course/<course_id>/grade
+- POST /faculty/course/<course_id>/assignment
+- POST /faculty/course/<course_id>/quiz
+- POST /faculty/course/<course_id>/announcement
+
+For Students:
+- GET /students/courses
+- GET /students/course/<course_id>/content
+- GET /students/course/<course_id>/quizzes
+- GET /students/course/<course_id>/assignments
+- GET /students/course/<course_id>/grades
+- PUT /students/profile
+
+For Admins:
+- GET /admins/courses/<semester>/<faculty_id>
+- POST /admins/assign-course
+- GET /admins/course/<course_id>/students
+
+
+
