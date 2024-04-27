@@ -18,7 +18,7 @@ interface DashboardCardProps {
 
 export default function DashboardCard({courseid, coursename, coursedescription, coursesemester, buttondisabled}: DashboardCardProps) {
   const navigate = useNavigate();
-  const url = `/test?courseid=${encodeURIComponent(courseid)}&coursename=${encodeURIComponent(coursename)}&coursedescription=${encodeURIComponent(coursedescription)}`;
+  const url = `/course?courseid=${encodeURIComponent(courseid)}&coursename=${encodeURIComponent(coursename)}&coursedescription=${encodeURIComponent(coursedescription)}`;
   // const url = `/course/${courseid}/${coursedescription}`;
 
   return (
