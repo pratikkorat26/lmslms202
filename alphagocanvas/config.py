@@ -6,3 +6,4 @@ ALGORITHM = "HS256"
 
 # Database URL
 URL_DATABASE = "mysql+pymysql://root:root@localhost:3307/project202cmpefinal"
+# URL_DATABASE = "mysql+pymysql://root:123456789@project202cmpefinal2.czus2a4ywlzs.us-east-1.rds.amazonaws.com/project202cmpefinal"
