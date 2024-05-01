@@ -1,0 +1,30 @@
+1) Set up the permission
+
+2) ssh -i "C:\Users\prati\Downloads\alphagocanvas.pem" ec2-user@ec2-54-210-225-166.compute-1.amazonaws.com
+
+3) Default apt-get is not installed on ec2, need to install
+4) Default EC2 instance uses yum instead of apt-get
+
+
+################ How to install nginix in EC2 ########################################
+
+1) sudo yum install nginx
+
+############### How to install Python3 ###############################################
+
+# Check the python version on local machine
+# python version -> 3.11.8
+
+1) sudo yum install python3.11
+
+## By default it is python3.11 and pip is not there
+
+## to install pip 
+	-> curl -O https://bootstrap.pypa.io/get-pip.py
+	-> sudo python3.11 get-pip.py
+
+## How to install get
+	-> sudo yum install git -y
+
+## git pull from github
+## install requirements

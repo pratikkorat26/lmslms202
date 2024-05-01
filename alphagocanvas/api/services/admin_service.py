@@ -74,7 +74,9 @@ def assign_course_to_faculty(db: database_dependency, params: CourseFacultySemes
     course_faculty = CourseFacultyTable(
         Coursefacultyid=params.Facultyid,
         Coursecourseid=params.Courseid,
-        Coursesemester=params.Coursesemester
+        Coursesemester=params.Coursesemester,
+        Coursepublished=0,
+        Coursedscription="This is default course syllabus"
     )
 
     existing_record = db.query(CourseFacultyTable).filter(
