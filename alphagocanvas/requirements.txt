@@ -33,3 +33,4 @@ starlette
 trio==0.21.0
 typing_extensions
 uvicorn
+uvicorn
