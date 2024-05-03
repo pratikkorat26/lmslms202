@@ -9,7 +9,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FacultySidebar from "../../components/facultysidebar";
-
+import DashboardCardFaculty from "../../components/facultydashboardcard";
 function FacultyDashnboard() {
   return (
     <>
@@ -43,10 +43,10 @@ function FacultyDashnboard() {
                 className="grid-section-1"
               >
                 <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                  <DashboardCard></DashboardCard>
+                  <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
                 </Grid>
                 <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                  <DashboardCard></DashboardCard>
+                  <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -70,10 +70,10 @@ function FacultyDashnboard() {
                       className="grid-section-1"
                     >
                       <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                        <DashboardCard></DashboardCard>
+                        <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
                       </Grid>
                       <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                        <DashboardCard></DashboardCard>
+                        <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
                       </Grid>
                     </Grid>
                   </Grid>
