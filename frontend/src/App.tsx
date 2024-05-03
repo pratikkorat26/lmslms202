@@ -7,7 +7,6 @@ import DashboardPage from './pages/student/dashboard';
 import AccountPage from './pages/student//account';
 import CoursesPage from './pages/student//courses';
 import CourseHomepage from './pages/student//coursehomepage';
-import Test from './pages/student/test';
 import AdminDashboardPage from './pages/admin//admindashboard';
 import FacultyDashnboard from './pages/faculty/facultydashboard';
 import AddAssignment from './pages/faculty/facultyassignment';
@@ -52,8 +51,9 @@ function App() {
           <Route path="courses" element={<CoursesPage />}></Route>
           <Route path="account" element={<AccountPage />}></Route>
           <Route path="courseshome" element={<CourseHomepage />}></Route>
-          <Route path="test" element={<Test />}></Route>
           <Route path="course" element={<Course />}></Route>
+          {/*<Route path="course" element={<Course />}></Route>*/}
+          <Route path="/course/:courseid" element={<Course />}></Route>
           <Route path="admin_dashboard" element={<AdminDashboardPage />}></Route>
           <Route path="faculty_dashboard" element={<FacultyDashnboard />}></Route>
           <Route path="faculty_assignment" element={<AddAssignment />}></Route>

@@ -7,6 +7,7 @@ import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {Interface} from "node:readline";
 interface Assignment {
     Courseid: string;
     Coursename: string;
@@ -39,12 +40,21 @@ interface Grade {
     EnrollmentSemester: string;
 }
 
+interface Content {
+    Courseid : string
+    Coursename : string
+    Coursedescription : string
+    Coursesemester : string
+
+}
+
 function Course() {
 
-    const [courseid, setCourseid] = React.useState("");
+    const [courseid1, setCourseid1] = React.useState("");
     const [coursename, setCoursename] = React.useState("");
     const [coursedescription, setCoursedescription] = React.useState("");
-    const token = localStorage.getItem("token");
+
+    const {courseid} = useParams();
 
     const [assignments, setAssignments] = React.useState([]);
     const [quizzes, setQuizzes] = React.useState([]);
@@ -52,27 +62,32 @@ function Course() {
     const [grades, setGrades] = React.useState([]);
     const [contents, setContents] = React.useState([]);
 
-
     useEffect(() => {
-        // Parse the query string from the URL
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-
-        setCourseid(urlParams.get('courseid') ?? '');
-        setCoursename(urlParams.get('coursename') ?? '');
-        setCoursedescription(urlParams.get('coursedescription') ?? '');
-
-        // fetchAssignments();
-        // fetchQuizzes();
-        // fetchAnnouncements();
-        // fetchGrades();
-
+        fetchContents();
     }, []);
 
 
     const fetchContents = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://127.0.0.1:8000/student/view_contents", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
+        if (response.status === 200) {
+            const contents = response.data.filter((content : Content) => content.Courseid == courseid);
+            setCourseid1(contents[0].Courseid);
+            setCoursename(contents[0].Coursename);
+            setCoursedescription(contents[0].Coursedescription);
+
+        }
+    } catch (error) {
+        console.error("Error fetching contents:", error);
+        throw error; // Re-throw the error for further handling
     }
+};
 
     const fetchAssignments = async () => {
         try {
@@ -149,7 +164,6 @@ function Course() {
 
                 const filteredGrades = response.data.filter((grade: Grade) => grade.Courseid == courseid);
                 setGrades(filteredGrades);
-                console.log(filteredGrades);
             }
         } catch (error) {
             console.error("Error fetching grades:", error);
@@ -166,6 +180,7 @@ function Course() {
     const handleDropdownToggle = () => {
         // Call fetchAssignments when the dropdown toggle is clicked
         fetchAssignments();
+
     };
 
     const handleQuizzesDropdownToggle = () => {
@@ -212,7 +227,7 @@ function Course() {
 
                                 <div className="course-content-section">
                                     <DashboardCard
-                                        courseid={courseid}
+                                        courseid={courseid1}
                                         coursename={coursename}
                                         coursedescription={coursedescription}
                                         coursesemester={"SPRING24"}

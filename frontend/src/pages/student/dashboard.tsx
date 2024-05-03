@@ -10,11 +10,12 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
 function DashboardPage() {
-    const [number, setNumber] = useState("");
     const [previousSemesterData, setPreviousSemesterData] = useState([]); // State to store previous semester data
     const [currentSemesterData, setCurrentSemesterData] = useState([]); // State to store current semester data
+    let {courseid} = useParams();
 
     const fetchCurrentSemesterData = async () => {
         try {
@@ -54,7 +55,6 @@ function DashboardPage() {
             if (response.status === 200) {
                 // If the request is successful, set the previous semester data state
                 setPreviousSemesterData(response.data);
-
             } else {
                 throw new Error("Failed to fetch previous semester data");
             }
