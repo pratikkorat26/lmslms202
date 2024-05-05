@@ -10,7 +10,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FacultySidebar from "../../components/facultysidebar";
 import DashboardCardFaculty from "../../components/facultydashboardcard";
-function FacultyDashnboard() {
+function FacultyDashboard() {
   return (
     <>
       <Helmet>
@@ -88,4 +88,4 @@ function FacultyDashnboard() {
   );
 }
 
-export default FacultyDashnboard;
+export default FacultyDashboard;

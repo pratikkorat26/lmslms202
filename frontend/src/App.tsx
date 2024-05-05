@@ -16,6 +16,7 @@ import AddAnnouncement from './pages/faculty/faculyannouncement';
 import AssignCourse from './pages/admin/assigncourse';
 import StudnetList from './pages/admin/students';
 import Course from './pages/student/course';
+import CourseFaculty from "./pages/faculty/facultycourse";
 
 function App() {
   const theme = createTheme({
@@ -56,6 +57,7 @@ function App() {
           <Route path="/course/:courseid" element={<Course />}></Route>
           <Route path="admin_dashboard" element={<AdminDashboardPage />}></Route>
           <Route path="faculty_dashboard" element={<FacultyDashnboard />}></Route>
+          <Route path="coursefaculty/:courseid" element={<CourseFaculty />}></Route>
           <Route path="faculty_assignment" element={<AddAssignment />}></Route>
           <Route path="faculty_announcement" element={<AddAnnouncement />}></Route>
           <Route path="faculty_grades" element={<AddGrades />}></Route>

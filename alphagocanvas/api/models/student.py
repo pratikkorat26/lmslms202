@@ -57,6 +57,7 @@ class StudentInformationCourses(BaseModel):
     Studentcontactnumber : str
     Courseid : int
     Coursename : str
+    Coursesemester : str
 
 class StudentInformationDetails(BaseModel):
     Studentid : int

@@ -20,9 +20,7 @@ export default function DashboardCardFaculty({courseid, coursename, coursedescri
   const navigate = useNavigate();
 
   // const url = `/course?courseid=${encodeURIComponent(courseid)}&coursename=${encodeURIComponent(coursename)}&coursedescription=${encodeURIComponent(coursedescription)}`;
-  const url = `/course/${courseid}`;
-
-
+  const url = `/coursefaculty/${courseid}`;
   return (
     <Card sx={{ maxWidth: 345 }} className='course-card'>
       <CardActionArea>

@@ -108,7 +108,8 @@ def get_students(db: database_dependency) -> List[StudentInformationCourses]:
             s.Studentlastname,
             s.Studentcontactnumber,
             c.Courseid,
-            c.Coursename
+            c.Coursename,
+            se.EnrollmentSemester
         FROM
             studentenrollment se
         JOIN
@@ -139,7 +140,8 @@ def get_students(db: database_dependency) -> List[StudentInformationCourses]:
                                                       Studentlastname=student.Studentlastname,
                                                       Studentcontactnumber=student.Studentcontactnumber,
                                                       Courseid=student.Courseid,
-                                                      Coursename=student.Coursename))
+                                                      Coursename=student.Coursename,
+                                                      Coursesemester=student.EnrollmentSemester))
 
     return student_list
 
