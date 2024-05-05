@@ -5,12 +5,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/login';
 import DashboardPage from './pages/student/dashboard';
 import AccountPage from './pages/student//account';
-import CoursesPage from './pages/student//courses';
+// import CoursesPage from './pages/student//courses';
 import CourseHomepage from './pages/student//coursehomepage';
 import AdminDashboardPage from './pages/admin//admindashboard';
 import FacultyDashnboard from './pages/faculty/facultydashboard';
 import AddAssignment from './pages/faculty/facultyassignment';
 import AddGrades from './pages/faculty/facultygrades';
+import AddQuiz from './pages/faculty/facultyquiz';
 import Sample from './pages/student/sample';
 import AddAnnouncement from './pages/faculty/faculyannouncement';
 import AssignCourse from './pages/admin/assigncourse';
@@ -49,7 +50,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="dashboard" element={<DashboardPage />}></Route>
-          <Route path="courses" element={<CoursesPage />}></Route>
+          {/* <Route path="courses" element={<CoursesPage />}></Route> */}
           <Route path="account" element={<AccountPage />}></Route>
           <Route path="courseshome" element={<CourseHomepage />}></Route>
           <Route path="course" element={<Course />}></Route>
@@ -60,6 +61,7 @@ function App() {
           <Route path="coursefaculty/:courseid" element={<CourseFaculty />}></Route>
           <Route path="faculty_assignment" element={<AddAssignment />}></Route>
           <Route path="faculty_announcement" element={<AddAnnouncement />}></Route>
+          <Route path="faculty_quiz" element={<AddQuiz />}></Route>
           <Route path="faculty_grades" element={<AddGrades />}></Route>
           <Route path="assign_course" element={<AssignCourse />}></Route>
           <Route path="student_list" element={<StudnetList />}></Route>

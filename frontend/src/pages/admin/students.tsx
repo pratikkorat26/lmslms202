@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Helmet} from "react-helmet";
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import AdminSidebar from "../../components/adminsidebar";
 import Header from "../../components/header";
 import axios from "axios";
@@ -9,18 +9,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import StudentTable from "../../components/table";
 
-function createData(
-    name: string,
-    contact: string,
-    course: string,
-    semester: string
-) {
-    return {name, contact, course, semester};
-}
 
 function StudentList() {
     const token = localStorage.getItem("token");
-    const [studentsGrouped, setStudentsGrouped] = React.useState([]);
+    const [studentsGrouped, setStudentsGrouped] = useState<{ [key: string]: any[] }>({});
 
     const fetchStudents = async () => {
         try {
@@ -57,7 +49,6 @@ function StudentList() {
         fetchStudents();
     }, []);
 
-    // @ts-ignore
     return (
         <>
             <Helmet>
@@ -70,28 +61,28 @@ function StudentList() {
                 ></div>
                 <Header/>
                 <div className="main-background"></div>
-                <div style={{display: "flex"}}>
+                <div style={{ display: "flex" }}>
                     <div className="sidebar">
-                        <AdminSidebar/>
+                        <AdminSidebar />
                     </div>
-                    <main className="dashboard-content" style={{width: "100%"}}>
+                    <main className="dashboard-content" style={{ width: "100%" }}>
                         <div className="main-content">
                             <div className="main-title">
                                 <h5>Students</h5>
                                 <h6>Go-Canvas</h6>
                             </div>
                             <div className="content-container">
-                                {Object.keys(studentsGrouped).map((courseName, index) => (
+                                {Object.entries(studentsGrouped).map(([courseName, students], index) => (
                                     <Accordion key={index}>
                                         <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon/>}
+                                            expandIcon={<ExpandMoreIcon />}
                                             aria-controls="panel1a-content"
                                             id="panel1a-header"
                                         >
                                             <h6>{courseName}</h6>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <StudentTable students={studentsGrouped}/>
+                                            <StudentTable students={students} />
                                         </AccordionDetails>
                                     </Accordion>
                                 ))}
