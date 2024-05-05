@@ -25,18 +25,8 @@ interface Row {
 }
 
 function createRow(student: Student): Row {
-  const {
-    Studentfirstname,
-    Studentlastname,
-    Studentcontactnumber,
-    Coursesemester,
-  } = student;
-  return {
-    studentfirstname: Studentfirstname,
-    studentlastname: Studentlastname,
-    studentcontactnumber: Studentcontactnumber,
-    coursesemester: Coursesemester,
-  };
+  const { Studentfirstname, Studentlastname, Studentcontactnumber, Coursesemester } = student;
+  return { studentfirstname: Studentfirstname, studentlastname: Studentlastname, studentcontactnumber: Studentcontactnumber, coursesemester: Coursesemester };
 }
 
 const StudentTable: React.FC<{ students: Student[] }> = ({ students }) => {
