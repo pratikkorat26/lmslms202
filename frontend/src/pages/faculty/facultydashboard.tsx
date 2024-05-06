@@ -26,6 +26,7 @@ function FacultyDashboard() {
   const [currentSemesterData, setCurrentSemesterData] = useState<Course[]>([]); // Explicitly define type as Course[]
   const { courseid } = useParams();
 
+
   const fetchCourses = async () => {
     try {
       const token = localStorage.getItem("token");

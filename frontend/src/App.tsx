@@ -55,12 +55,12 @@ function App() {
           <Route path="admin_dashboard" element={<AdminDashboardPage />}></Route>
           <Route path="faculty_dashboard" element={<FacultyDashnboard />}></Route>
           <Route path="coursefaculty/:courseid" element={<CourseFaculty />}></Route>
-          <Route path="faculty_assignment" element={<AddAssignment />}></Route>
-          <Route path="faculty_syllabus" element={<AddSyllabus />}></Route>
-          <Route path="students" element={<CourseStudentList />}></Route>
-          <Route path="faculty_announcement" element={<AddAnnouncement />}></Route>
-          <Route path="faculty_quiz" element={<AddQuiz />}></Route>
-          <Route path="faculty_grades" element={<AddGrades />}></Route>
+          <Route path="faculty_assignment/:courseid" element={<AddAssignment />}></Route>
+          <Route path="faculty_syllabus/:courseid" element={<AddSyllabus />}></Route>
+          <Route path="students/:courseid" element={<CourseStudentList />}></Route>
+          <Route path="faculty_announcement/:courseid" element={<AddAnnouncement />}></Route>
+          <Route path="faculty_quiz/:courseid" element={<AddQuiz />}></Route>
+          <Route path="faculty_grades/:courseid" element={<AddGrades />}></Route>
           <Route path="assign_course" element={<AssignCourse />}></Route>
           <Route path="student_list" element={<StudnetList />}></Route>
           <Route path="/" element={<LoginPage />}></Route>

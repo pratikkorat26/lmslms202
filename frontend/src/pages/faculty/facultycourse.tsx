@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Helmet} from "react-helmet";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
@@ -50,8 +50,52 @@ interface Content {
 
 }
 
-function CourseFaculty() {
+interface Course {
+  Courseid: string;
+  Coursename: string;
+  Coursedescription: string;
+  Coursesemester: string;
+  Coursepublished: boolean; // Add this property
+}
 
+function CourseFaculty() {
+    const courseid = useParams().courseid;
+    localStorage.setItem("courseid", courseid || "");
+
+    const [currentSemesterData, setCurrentSemesterData] = useState<Course[]>([]); // Explicitly define type as Course[]
+
+    const fetchCourses = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get<Course[]>(
+        "http://127.0.0.1:8000/faculty/courses_taught",
+        {
+          // Specify the response type as Course[]
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const currentSemesterCourses = response.data.filter(
+          (course) => course.Coursesemester === "SPRING24"
+        );
+
+
+        setCurrentSemesterData(currentSemesterCourses);
+        console.log(currentSemesterCourses);
+      } else {
+        throw new Error("Failed to fetch courses");
+      }
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
+
+    useEffect(() => {
+        fetchCourses();
+    }, []);
 
 return (
     <>
@@ -68,7 +112,7 @@ return (
         <div className="main-background"></div>
         <main className="dashnoard-content">
           <div className="sidebar">
-            <FacultySidebar></FacultySidebar>
+            <FacultySidebar/>
           </div>
           <div className="main-content">
             <div className="main-title">
@@ -76,52 +120,26 @@ return (
               <h6>Go-Canvas</h6>
             </div>
             <Grid container spacing={3} className="grid-sections">
-              <Grid
-                item
-                md={12}
-                lg={12}
-                spacing={3}
-                container
-                className="grid-section-1"
-              >
-                <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                  <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
-                </Grid>
-                <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                  <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
-                </Grid>
-              </Grid>
-            </Grid>
-            <div className="dashboard-dropdown">
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                >
-                  Previous Semesters
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={3} className="grid-sections">
-                    <Grid
-                      item
-                      md={12}
-                      lg={12}
-                      spacing={3}
-                      container
-                      className="grid-section-1"
-                    >
-                      <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                        <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
-                      </Grid>
-                      <Grid item sm={12} md={4} lg={4} className="courses-grid">
-                        <DashboardCardFaculty courseid={"1"} coursename={"Hllo"} coursedescription={"llol"} coursesemester={"FALL24"} buttondisabled={false}/>
-                      </Grid>
-                    </Grid>
+                {currentSemesterData.map((course, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    sm={12}
+                    md={6}
+                    lg={6}
+                    className="courses-grid"
+                  >
+                    <DashboardCardFaculty
+                      key={index}
+                      courseid={course.Courseid}
+                      coursename={course.Coursename}
+                      coursedescription={course.Coursedescription}
+                      coursesemester={course.Coursesemester}
+                      buttondisabled={false}
+                    />
                   </Grid>
-                </AccordionDetails>
-              </Accordion>
-            </div>
+                ))}
+              </Grid>
           </div>
         </main>
       </div>
