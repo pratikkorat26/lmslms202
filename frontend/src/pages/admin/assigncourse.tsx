@@ -17,16 +17,19 @@ interface Course {
   Coursename: string;
 }
 
-interface Semester {
-  Coursesemester: string;
-}
-
 function AssignCourse() {
   const [facultyList, setFacultyList] = useState<Faculty[]>([]);
   const [courseList, setCourseList] = useState<Course[]>([]);
-  const [semesterList, setSemesterList] = useState<Semester[]>([]);
-  const [selectedFaculty, setSelectedFaculty] = useState<number | null>(null);
-  const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [semesterList] = useState<string[]>([
+    "SPRING24",
+    "FALL24",
+    "SPRING25",
+    "FALL25",
+    "SPRING26",
+    "FALL26"
+  ]);
+  const [selectedFaculty, setSelectedFaculty] = useState<number>(-1); // Initialize with -1
+  const [selectedCourse, setSelectedCourse] = useState<number>(-1); // Initialize with -1
   const [selectedSemester, setSelectedSemester] = useState<string>("");
   const [anchorElFaculty, setAnchorElFaculty] = useState<null | HTMLElement>(
     null
@@ -44,7 +47,6 @@ function AssignCourse() {
   useEffect(() => {
     fetchFaculties();
     fetchCourses();
-    fetchSemesters(); // Fetch semesters when component mounts
   }, []);
 
   const fetchFaculties = async () => {
@@ -84,26 +86,6 @@ function AssignCourse() {
       }
     } catch (error) {
       console.error("Error fetching courses:", error);
-    }
-  };
-
-  const fetchSemesters = async () => {
-    try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/admin/view_courses_by_faculty",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setSemesterList(response.data);
-      } else {
-        console.error("Error fetching semesters:", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching semesters:", error);
     }
   };
 
@@ -148,6 +130,14 @@ function AssignCourse() {
 
   const handleSave = async () => {
     try {
+      // Check if the course is already assigned to the faculty for the selected semester
+      const alreadyAssigned = await checkIfCourseAlreadyAssigned(selectedCourse, selectedFaculty, selectedSemester);
+      
+      if (alreadyAssigned) {
+        window.alert("Course already assigned");
+        return;
+      }
+
       const response = await axios.post(
         "http://127.0.0.1:8000/admin/assign_course",
         {
@@ -164,14 +154,38 @@ function AssignCourse() {
       if (response.status === 200) {
         console.log("Data saved successfully:", response.data);
         // Optionally, you can reset the selected values after saving
-        setSelectedFaculty(null);
-        setSelectedCourse(null);
+        setSelectedFaculty(-1);
+        setSelectedCourse(-1);
         setSelectedSemester("");
+        // Show alert
+        window.alert("Course Successfully Assigned");
       } else {
         console.error("Error saving data:", response.data);
       }
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        window.alert("Course already assigned");
+      } else {
+        console.error("Error saving data:", error);
+      }
+    }
+  };
+
+  // Function to check if the course is already assigned to the faculty for the selected semester
+  const checkIfCourseAlreadyAssigned = async (courseId: number, facultyId: number, semester: string): Promise<boolean> => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/admin/check_course_assignment?Courseid=${courseId}&Facultyid=${facultyId}&Coursesemester=${semester}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response.data.exists;
     } catch (error) {
-      console.error("Error saving data:", error);
+      console.error("Error checking course assignment:", error);
+      return false;
     }
   };
 
@@ -200,7 +214,7 @@ function AssignCourse() {
               style={{
                 display: "flex",
                 marginTop: "50px",
-                justifyContent: "space-around",
+                justifyContent: "space-around"
               }}
             >
               <div>
@@ -221,12 +235,10 @@ function AssignCourse() {
                 >
                   {semesterList.map((semester) => (
                     <MenuItem
-                      key={semester.Coursesemester}
-                      onClick={() =>
-                        handleSemesterSelect(semester.Coursesemester)
-                      }
+                      key={semester}
+                      onClick={() => handleSemesterSelect(semester)}
                     >
-                      {semester.Coursesemester}
+                      {semester}
                     </MenuItem>
                   ))}
                 </Menu>
@@ -239,7 +251,7 @@ function AssignCourse() {
                   aria-haspopup="true"
                   onClick={handleCourseClick}
                 >
-                  {selectedCourse ? courseList.find(course => course.Courseid === selectedCourse)?.Coursename : "Select Course"}
+                  {selectedCourse !== -1 ? courseList.find(course => course.Courseid === selectedCourse)?.Coursename : "Select Course"}
                 </Button>
                 <Menu
                   id="course-menu"
@@ -267,7 +279,7 @@ function AssignCourse() {
                   aria-haspopup="true"
                   onClick={handleFacultyClick}
                 >
-                  {selectedFaculty ? facultyList.find(faculty => faculty.Facultyid === selectedFaculty)?.Facultyname : "Select Faculty"}
+                  {selectedFaculty !== -1 ? facultyList.find(faculty => faculty.Facultyid === selectedFaculty)?.Facultyname : "Select Faculty"}
                 </Button>
                 <Menu
                   id="faculty-menu"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FacultySidebar from "../../components/facultysidebar";
 import Header from "../../components/header";
 import { Helmet } from "react-helmet";
@@ -9,57 +9,112 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useParams } from "react-router-dom";
+
+interface QuizData {
+  id: number;
+  Quizname: string;
+  Quizdescription: string;
+  Semester: string;
+}
 
 function AddQuiz() {
-  interface QuizData {
-    id: number;
-    quizName: string;
-    quizDescription: string;
-  }
+  const { courseid } = useParams();
+  
+  // Providing a default value for courseid if it's undefined
+  const courseId = courseid || ""; 
 
-  const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
+  const [showForm, setShowForm] = useState(false);
   const [quizName, setQuizName] = useState("");
   const [quizDescription, setQuizDescription] = useState("");
-  const [savedQuizs, setSavedQuizs] = useState<QuizData[]>(
-    []
-  ); // State to store saved quizs
-  const [error, setError] = useState<string>(""); // State to manage error message
+  const [savedQuizzes, setSavedQuizzes] = useState<QuizData[]>([]);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (data: QuizData) => {
-    // Handle form submission here
-    console.log("Form submitted with data:", data);
-    setSavedQuizs([...savedQuizs, data]); // Add new quiz data to savedQuizs state
-    setQuizName("");
-    setQuizDescription("");
-    setShowForm(false); // Hide the form after submission
-    setError("");
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/faculty/view_quiz_by_courseid?courseid=${courseId}`, // Adjust courseid as needed
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSavedQuizzes(data); // Assuming data is an array of quizzes
+        } else {
+          setError("Failed to fetch quizzes");
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+        setError("Failed to fetch quizzes");
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/faculty/add_quiz",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            Courseid: courseId,
+            Quizname: quizName,
+            Quizdescription: quizDescription,
+            Semester: "SPRING24",
+          }),
+        }
+      );
+      if (response.ok) {
+        const newQuiz = await response.json();
+        setSavedQuizzes([...savedQuizzes, newQuiz]);
+        setQuizName("");
+        setQuizDescription("");
+        setShowForm(false);
+        setError("");
+        // Show success alert and refresh the page on OK
+        alert("Quiz added successfully");
+        window.location.reload();
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || "Failed to add quiz");
+      }
+    } catch (error) {
+      console.error("Error adding quiz:", error);
+      setError("Failed to add quiz");
+    }
   };
 
   const handleAddQuizClick = () => {
-    setShowForm(true); // Show the form when the "Add Quiz" button is clicked
+    setShowForm(true);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Check if fields are empty
     if (!quizName.trim() || !quizDescription.trim()) {
-      setError("Please fill out all fields."); // Set error message
-      return; // Exit early if fields are empty
+      setError("Please fill out all fields.");
+      return;
     }
 
-    // Pass quiz details to parent component for submission
-    handleSubmit({
-      id: savedQuizs.length + 1,
-      quizName,
-      quizDescription,
-    });
+    handleSubmit();
   };
 
   const handleCancel = () => {
     setQuizName("");
     setQuizDescription("");
-    setShowForm(false); // Hide the form when the "Cancel" button is clicked
+    setShowForm(false);
     setError("");
   };
 
@@ -68,11 +123,10 @@ function AddQuiz() {
       <Helmet>
         <title>Dashboard-Faculty</title>
       </Helmet>
-      {/* Dashboardpage-Start */}
       <div className="wrapper">
         <div
           className="overlay"
-          onClick={(e) => document.body.classList.toggle("sidebar-open")}
+          onClick={() => document.body.classList.toggle("sidebar-open")}
         ></div>
         <Header></Header>
         <div className="main-background"></div>
@@ -85,13 +139,13 @@ function AddQuiz() {
               <h5>Quizzes</h5>
               <h6>Go-Canvas</h6>
             </div>
-            <div style={{marginTop:'30px'}}>
+            <div style={{ marginTop: "30px" }}>
               {!showForm ? (
                 <Button
                   onClick={handleAddQuizClick}
                   variant="contained"
                   color="primary"
-                  style={{display:'block', marginLeft:'auto'}}
+                  style={{ display: "block", marginLeft: "auto" }}
                 >
                   Add Quiz
                 </Button>
@@ -126,14 +180,14 @@ function AddQuiz() {
                       onClick={handleCancel}
                       variant="contained"
                       color="error"
-                      style={{marginLeft:'20px'}}
+                      style={{ marginLeft: "20px" }}
                     >
                       Cancel
                     </Button>
                   </form>
                 </>
               )}
-              <Accordion defaultExpanded style={{marginTop:'20px'}}>
+              <Accordion defaultExpanded style={{ marginTop: "20px" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -143,15 +197,13 @@ function AddQuiz() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <div>
-                    {savedQuizs.map((quiz) => (
-                      <div key={quiz.id}>
+                    {savedQuizzes.map((quiz, index) => (
+                      <div key={index} style={{ borderBottom: "1px solid grey" }}>
                         <h3>
-                          Quiz {quiz.id}:{" "}
-                          {quiz.quizName}
+                          Quiz {index + 1}: {quiz.Quizname}
                         </h3>
                         <p>
-                          <strong>Description:</strong>{" "}
-                          {quiz.quizDescription}
+                          <strong>Description:</strong> {quiz.Quizdescription}
                         </p>
                       </div>
                     ))}

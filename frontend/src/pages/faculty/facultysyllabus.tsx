@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FacultySidebar from "../../components/facultysidebar";
 import Header from "../../components/header";
 import { Helmet } from "react-helmet";
@@ -9,34 +9,90 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useParams } from "react-router-dom";
 
 function AddSyllabus() {
-  interface SyllabusData {
-    id: number;
-    syllabusName: string;
-    syllabusDescription: string;
-  }
 
+  const { courseid } = useParams();
+  
+  // Providing a default value for courseid if it's undefined
+  const courseId = courseid || ""; 
+  
   const [showForm, setShowForm] = useState(false);
   const [syllabusName, setSyllabusName] = useState("");
   const [syllabusDescription, setSyllabusDescription] = useState("");
-  const [savedSyllabus, setSavedSyllabus] = useState<SyllabusData[]>([]);
-  const [error, setError] = useState<string>("");
+  const [savedSyllabus, setSavedSyllabus] = useState<{ Courseid: number, Coursesemester: string, Coursedescription: string }[]>([]);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (data: SyllabusData) => {
-    console.log("Form submitted with data:", data);
-    setSavedSyllabus([...savedSyllabus, data]);
-    setSyllabusName("");
-    setSyllabusDescription("");
-    setShowForm(false);
-    setError("");
+  useEffect(() => {
+    const fetchSyllabus = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/faculty/view_content_by_courseid?courseid=2", // Assuming courseid is hardcoded for now
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSavedSyllabus(data);
+        } else {
+          setError("Failed to fetch syllabus");
+        }
+      } catch (error) {
+        console.error("Error fetching syllabus:", error);
+        setError("Failed to fetch syllabus");
+      }
+    };
+
+    fetchSyllabus();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/faculty/update-syllabus/",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            Courseid: courseId, // Assuming courseid is hardcoded for now
+            Coursesemester: "SPRING24", // Assuming semester is hardcoded for now
+            Coursedescription: syllabusDescription,
+          }),
+        }
+      );
+      if (response.ok) {
+        const newSyllabus = await response.json();
+        setSavedSyllabus([...savedSyllabus, newSyllabus]);
+        setSyllabusName("");
+        setSyllabusDescription("");
+        setShowForm(false);
+        setError("");
+        alert("Syllabus added successfully");
+        window.location.reload();
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || "Failed to add syllabus");
+      }
+    } catch (error) {
+      console.error("Error adding syllabus:", error);
+      setError("Failed to add syllabus");
+    }
   };
 
   const handleAddSyllabusClick = () => {
     setShowForm(true);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e:any) => {
     e.preventDefault();
 
     if (!syllabusName.trim() || !syllabusDescription.trim()) {
@@ -44,11 +100,7 @@ function AddSyllabus() {
       return;
     }
 
-    handleSubmit({
-      id: savedSyllabus.length + 1,
-      syllabusName,
-      syllabusDescription,
-    });
+    handleSubmit();
   };
 
   const handleCancel = () => {
@@ -66,7 +118,7 @@ function AddSyllabus() {
       <div className="wrapper">
         <div
           className="overlay"
-          onClick={(e) => document.body.classList.toggle("sidebar-open")}
+          onClick={() => document.body.classList.toggle("sidebar-open")}
         ></div>
         <Header></Header>
         <div className="main-background"></div>
@@ -87,7 +139,7 @@ function AddSyllabus() {
                   color="primary"
                   style={{ display: "block", marginLeft: "auto" }}
                 >
-                  Add Syllabus
+                  Update Syllabus
                 </Button>
               ) : (
                 <>
@@ -111,7 +163,7 @@ function AddSyllabus() {
                       multiline
                       rows={4}
                       margin="normal"
-                      placeholder="Enter Description"
+                      placeholder="Enter Content Description"
                     />
                     <Button type="submit" variant="contained" color="primary">
                       Submit
@@ -137,14 +189,13 @@ function AddSyllabus() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <div>
-                    {savedSyllabus.map((syllabus) => (
-                      <div key={syllabus.id}>
+                    {savedSyllabus.map((syllabus, index) => (
+                      <div key={index} style={{ borderBottom: "1px solid grey" }}>
                         <h3>
-                          Syllabus {syllabus.id}: {syllabus.syllabusName}
+                          Syllabus {index + 1}: {syllabus.Coursesemester}
                         </h3>
                         <p>
-                          <strong>Description:</strong>{" "}
-                          {syllabus.syllabusDescription}
+                          <strong>Description:</strong> {syllabus.Coursedescription}
                         </p>
                       </div>
                     ))}

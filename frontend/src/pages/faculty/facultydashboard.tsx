@@ -45,7 +45,7 @@ function FacultyDashboard() {
           (course) => course.Coursesemester === "SPRING24"
         );
         const previousSemesterCourses = response.data.filter(
-          (course) => course.Coursesemester !== "SPRING24"
+          (course) => course.Coursesemester !== "SPRING24" && course.Coursesemester < "SPRING24" // Filter out future semesters
         );
 
         setCurrentSemesterData(currentSemesterCourses);
