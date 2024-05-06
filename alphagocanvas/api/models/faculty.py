@@ -75,3 +75,30 @@ class AnnouncementRequestFacultyRequest(BaseModel):
 
 class AnnouncementRequestFacultyResponse(BaseModel):
     Success: str
+
+
+class AssignmentResponse(BaseModel):
+    Assignmentid: int
+    Assignmentname: str
+    Assignmentdescription: str
+    Courseid: int
+
+
+class QuizResponse(BaseModel):
+    Quizid: int
+    Quizname: str
+    Quizdescription: str
+    Courseid: int
+
+
+class AnnouncementResponse(BaseModel):
+    Announcementid: int
+    Announcementname: str
+    Announcementdescription: str
+    Courseid: int
+
+
+class FacultyCourseDetails(BaseModel):
+    Coursecourseid: int
+    Coursesemester: str
+    Coursedescription: str

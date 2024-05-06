@@ -70,6 +70,7 @@ async def is_current_user_faculty(current_user: UserTable = Depends(get_current_
     return current_user.Userrole == "Faculty"
 
 
+
 def create_token(token: TokenData):
     """
 
