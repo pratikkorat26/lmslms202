@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FacultySidebar from "../../components/facultysidebar";
 import Header from "../../components/header";
 import { Helmet } from "react-helmet";
@@ -9,57 +9,120 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useParams } from "react-router-dom";
+
+// Define the type for savedAnnouncements
+interface AnnouncementData {
+  id: number;
+  announcementName: string;
+  announcementDescription: string;
+  Semester: string;
+}
 
 function AddAnnouncement() {
-  interface AnnouncementData {
-    id: number;
-    announcementName: string;
-    announcementDescription: string;
-  }
+  const { courseid } = useParams();
+  
+  // Providing a default value for courseid if it's undefined
+  const courseId = courseid || ""; 
 
-  const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
+  const [showForm, setShowForm] = useState(false);
   const [announcementName, setAnnouncementName] = useState("");
   const [announcementDescription, setAnnouncementDescription] = useState("");
-  const [savedAnnouncements, setSavedAnnouncements] = useState<AnnouncementData[]>(
-    []
-  ); // State to store saved announcements
-  const [error, setError] = useState<string>(""); // State to manage error message
+  const [semester, setSemester] = useState("");
+  const [savedAnnouncements, setSavedAnnouncements] = useState<AnnouncementData[]>([]);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (data: AnnouncementData) => {
-    // Handle form submission here
-    console.log("Form submitted with data:", data);
-    setSavedAnnouncements([...savedAnnouncements, data]); // Add new announcement data to savedAnnouncements state
-    setAnnouncementName("");
-    setAnnouncementDescription("");
-    setShowForm(false); // Hide the form after submission
-    setError("");
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/faculty/view_announcement_by_courseid?courseid=${courseId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const mappedData = data.map((item: { Announcementid: any; Announcementname: any; Announcementdescription: any; }) => ({
+            id: item.Announcementid,
+            announcementName: item.Announcementname,
+            announcementDescription: item.Announcementdescription,
+            Semester: "SPRING24",
+          }));
+          setSavedAnnouncements(mappedData);
+        } else {
+          setError("Failed to fetch announcements");
+        }
+      } catch (error) {
+        console.error("Error fetching announcements:", error);
+        setError("Failed to fetch announcements");
+      }
+    };
+  
+    fetchAnnouncements();
+  }, [courseId]);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/faculty/add_announcements",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            Courseid: courseId,
+            Announcementname: announcementName,
+            Announcementdescription: announcementDescription,
+            Semester: "SPRING24",
+          }),
+        }
+      );
+      if (response.ok) {
+        const newAnnouncement = await response.json();
+        setSavedAnnouncements(prevAnnouncements => [...prevAnnouncements, newAnnouncement]);
+        setAnnouncementName("");
+        setAnnouncementDescription("");
+        setShowForm(false);
+        setError("");
+        // Show success alert and refresh the page on OK
+        alert("Your Announcement Added Successfully");
+        window.location.reload();
+      } else {
+        const errorMessage = await response.text();
+        setError(errorMessage || "Failed to add announcement");
+      }
+    } catch (error) {
+      console.error("Error adding announcement:", error);
+      setError("Failed to add announcement");
+    }
   };
 
   const handleAddAnnouncementClick = () => {
-    setShowForm(true); // Show the form when the "Add Announcement" button is clicked
+    setShowForm(true);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    // Check if fields are empty
+    e.preventDefault();
+  
     if (!announcementName.trim() || !announcementDescription.trim()) {
-      setError("Please fill out all fields."); // Set error message
-      return; // Exit early if fields are empty
+      setError("Please fill out all fields.");
+      return;
     }
-
-    // Pass announcement details to parent component for submission
-    handleSubmit({
-      id: savedAnnouncements.length + 1,
-      announcementName,
-      announcementDescription,
-    });
+  
+    handleSubmit();
   };
 
   const handleCancel = () => {
     setAnnouncementName("");
     setAnnouncementDescription("");
-    setShowForm(false); // Hide the form when the "Cancel" button is clicked
+    setShowForm(false);
     setError("");
   };
 
@@ -68,7 +131,6 @@ function AddAnnouncement() {
       <Helmet>
         <title>Dashboard-Faculty</title>
       </Helmet>
-      {/* Dashboardpage-Start */}
       <div className="wrapper">
         <div
           className="overlay"
@@ -85,13 +147,13 @@ function AddAnnouncement() {
               <h5>Announcements</h5>
               <h6>Go-Canvas</h6>
             </div>
-            <div style={{marginTop:'30px'}}>
+            <div style={{ marginTop: "30px" }}>
               {!showForm ? (
                 <Button
                   onClick={handleAddAnnouncementClick}
                   variant="contained"
                   color="primary"
-                  style={{display:'block', marginLeft:'auto'}}
+                  style={{ display: "block", marginLeft: "auto" }}
                 >
                   Add Announcement
                 </Button>
@@ -133,7 +195,7 @@ function AddAnnouncement() {
                   </form>
                 </>
               )}
-              <Accordion defaultExpanded style={{marginTop:'20px'}}>
+              <Accordion defaultExpanded style={{ marginTop: "20px" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -143,10 +205,10 @@ function AddAnnouncement() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <div>
-                    {savedAnnouncements.map((announcement) => (
-                      <div key={announcement.id}>
+                    {savedAnnouncements.map((announcement, index) => (
+                      <div key={index} style={{borderBottom:'1px solid grey'}}>
                         <h3>
-                          Announcement {announcement.id}:{" "}
+                          Announcement {index + 1}:{" "}
                           {announcement.announcementName}
                         </h3>
                         <p>
