@@ -51,29 +51,28 @@ function StudentList() {
 
     return (
         <>
-            <Helmet>
-                <title>Student</title>
-            </Helmet>
-            <div className="wrapper">
-                <div
-                    className="overlay"
-                    onClick={(e) => document.body.classList.toggle("sidebar-open")}
-                ></div>
-                <Header/>
-                <div className="main-background"></div>
-                <div style={{ display: "flex" }}>
-                    <div className="sidebar">
-                        <AdminSidebar />
-                    </div>
-                    <main className="dashboard-content" style={{ width: "100%" }}>
-                        <div className="main-content">
-                            <div className="main-title">
-                                <h5>Students</h5>
-                                <h6>Go-Canvas</h6>
-                            </div>
-                            <div className="content-container">
+           <Helmet>
+        <title>Admin-StudentList</title>
+      </Helmet>
+      <div className="wrapper">
+        <div
+          className="overlay"
+          onClick={(e) => document.body.classList.toggle("sidebar-open")}
+        ></div>
+        <Header></Header>
+        <div className="main-background"></div>
+        <main className="dashnoard-content">
+          <div className="sidebar">
+            <AdminSidebar></AdminSidebar>
+          </div>
+          <div className="main-content">
+            <div className="main-title">
+              <h5>Students</h5>
+              <h6>Go-Canvas</h6>
+            </div>
+            <div className="content-container" style={{marginTop:'50px'}}>
                                 {Object.entries(studentsGrouped).map(([courseName, students], index) => (
-                                    <Accordion key={index}>
+                                    <Accordion key={index} style={{margin:'15px 0', borderRadius:'5px'}}>
                                         <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
                                             aria-controls="panel1a-content"
@@ -87,10 +86,9 @@ function StudentList() {
                                     </Accordion>
                                 ))}
                             </div>
-                        </div>
-                    </main>
-                </div>
-            </div>
+          </div>
+        </main>
+      </div>
         </>
     );
 }

@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import {Helmet} from "react-helmet";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
-// import DashboardCard from "../../components/dashboardcard";
 import DashboardCard from "../../components/dashboardcardstudent";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -81,7 +80,6 @@ function DashboardPage() {
             </Helmet>
             <div className="wrapper">
                 <div className="overlay" onClick={(e) => document.body.classList.toggle("sidebar-open")}></div>
-                <div className="search-overlay" onClick={(e) => document.body.classList.toggle("search-open")}></div>
                 <Header/>
                 <div className="main-background"></div>
                 <main className="dashnoard-content">

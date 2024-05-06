@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { dashboardIcon, ordersIcon, productsIcon, dashboardactive, ordersactive, productsactive } from "../assets/images";
+import { dashboardIcon, productsIcon, dashboardactive, productsactive } from "../assets/images";
 
 function Sidebar(){
     return(

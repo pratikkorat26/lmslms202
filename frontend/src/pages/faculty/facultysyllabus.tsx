@@ -10,56 +10,51 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-function AddQuiz() {
-  interface QuizData {
+function AddSyllabus() {
+  interface SyllabusData {
     id: number;
-    quizName: string;
-    quizDescription: string;
+    syllabusName: string;
+    syllabusDescription: string;
   }
 
-  const [showForm, setShowForm] = useState(false); // State to manage visibility of the form
-  const [quizName, setQuizName] = useState("");
-  const [quizDescription, setQuizDescription] = useState("");
-  const [savedQuizs, setSavedQuizs] = useState<QuizData[]>(
-    []
-  ); // State to store saved quizs
-  const [error, setError] = useState<string>(""); // State to manage error message
+  const [showForm, setShowForm] = useState(false);
+  const [syllabusName, setSyllabusName] = useState("");
+  const [syllabusDescription, setSyllabusDescription] = useState("");
+  const [savedSyllabus, setSavedSyllabus] = useState<SyllabusData[]>([]);
+  const [error, setError] = useState<string>("");
 
-  const handleSubmit = (data: QuizData) => {
-    // Handle form submission here
+  const handleSubmit = (data: SyllabusData) => {
     console.log("Form submitted with data:", data);
-    setSavedQuizs([...savedQuizs, data]); // Add new quiz data to savedQuizs state
-    setQuizName("");
-    setQuizDescription("");
-    setShowForm(false); // Hide the form after submission
+    setSavedSyllabus([...savedSyllabus, data]);
+    setSyllabusName("");
+    setSyllabusDescription("");
+    setShowForm(false);
     setError("");
   };
 
-  const handleAddQuizClick = () => {
-    setShowForm(true); // Show the form when the "Add Quiz" button is clicked
+  const handleAddSyllabusClick = () => {
+    setShowForm(true);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Check if fields are empty
-    if (!quizName.trim() || !quizDescription.trim()) {
-      setError("Please fill out all fields."); // Set error message
-      return; // Exit early if fields are empty
+    if (!syllabusName.trim() || !syllabusDescription.trim()) {
+      setError("Please fill out all fields.");
+      return;
     }
 
-    // Pass quiz details to parent component for submission
     handleSubmit({
-      id: savedQuizs.length + 1,
-      quizName,
-      quizDescription,
+      id: savedSyllabus.length + 1,
+      syllabusName,
+      syllabusDescription,
     });
   };
 
   const handleCancel = () => {
-    setQuizName("");
-    setQuizDescription("");
-    setShowForm(false); // Hide the form when the "Cancel" button is clicked
+    setSyllabusName("");
+    setSyllabusDescription("");
+    setShowForm(false);
     setError("");
   };
 
@@ -68,7 +63,6 @@ function AddQuiz() {
       <Helmet>
         <title>Dashboard-Faculty</title>
       </Helmet>
-      {/* Dashboardpage-Start */}
       <div className="wrapper">
         <div
           className="overlay"
@@ -82,42 +76,42 @@ function AddQuiz() {
           </div>
           <div className="main-content">
             <div className="main-title">
-              <h5>Quizzes</h5>
+              <h5>Syllabus</h5>
               <h6>Go-Canvas</h6>
             </div>
-            <div style={{marginTop:'30px'}}>
+            <div style={{ marginTop: "30px" }}>
               {!showForm ? (
                 <Button
-                  onClick={handleAddQuizClick}
+                  onClick={handleAddSyllabusClick}
                   variant="contained"
                   color="primary"
-                  style={{display:'block', marginLeft:'auto'}}
+                  style={{ display: "block", marginLeft: "auto" }}
                 >
-                  Add Quiz
+                  Add Syllabus
                 </Button>
               ) : (
                 <>
                   {error && <p style={{ color: "red" }}>{error}</p>}
                   <form onSubmit={handleFormSubmit}>
                     <TextField
-                      label="Quiz Name"
+                      label="Title"
                       variant="outlined"
-                      value={quizName}
-                      onChange={(e) => setQuizName(e.target.value)}
+                      value={syllabusName}
+                      onChange={(e) => setSyllabusName(e.target.value)}
                       fullWidth
                       margin="normal"
-                      placeholder="Enter Quiz Name"
+                      placeholder="Enter Title"
                     />
                     <TextField
-                      label="Quiz Description"
+                      label="Content Description"
                       variant="outlined"
-                      value={quizDescription}
-                      onChange={(e) => setQuizDescription(e.target.value)}
+                      value={syllabusDescription}
+                      onChange={(e) => setSyllabusDescription(e.target.value)}
                       fullWidth
                       multiline
                       rows={4}
                       margin="normal"
-                      placeholder="Enter Quiz Description"
+                      placeholder="Enter Description"
                     />
                     <Button type="submit" variant="contained" color="primary">
                       Submit
@@ -126,32 +120,31 @@ function AddQuiz() {
                       onClick={handleCancel}
                       variant="contained"
                       color="error"
-                      style={{marginLeft:'20px'}}
+                      style={{ marginLeft: "20px" }}
                     >
                       Cancel
                     </Button>
                   </form>
                 </>
               )}
-              <Accordion defaultExpanded style={{marginTop:'20px'}}>
+              <Accordion defaultExpanded style={{ marginTop: "20px" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>Quizzes</Typography>
+                  <Typography>Syllabus</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <div>
-                    {savedQuizs.map((quiz) => (
-                      <div key={quiz.id}>
+                    {savedSyllabus.map((syllabus) => (
+                      <div key={syllabus.id}>
                         <h3>
-                          Quiz {quiz.id}:{" "}
-                          {quiz.quizName}
+                          Syllabus {syllabus.id}: {syllabus.syllabusName}
                         </h3>
                         <p>
                           <strong>Description:</strong>{" "}
-                          {quiz.quizDescription}
+                          {syllabus.syllabusDescription}
                         </p>
                       </div>
                     ))}
@@ -166,4 +159,4 @@ function AddQuiz() {
   );
 }
 
-export default AddQuiz;
+export default AddSyllabus;

@@ -40,14 +40,11 @@ const Login: React.FC = () => {
   const [user, setUser] = useState<User>({ username: "", password: "" });
   const [error, setError] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
-  // ? - for navigation to another page
   const navigate = useNavigate();
   useEffect(() => {
-    // Check if token exists in local storage (assuming it's saved securely after login)
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
-      // Optionally, you can redirect the user to a dashboard or home page
       navigate('dashboard');
     }
   }, []);

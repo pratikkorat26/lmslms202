@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import { johnsmithside } from "../../assets/images";
 
 function AccountPage() {
