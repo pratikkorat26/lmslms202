@@ -317,7 +317,7 @@ def add_announcement_to_course(params: AnnouncementRequestFacultyRequest,
     return AnnouncementRequestFacultyResponse(Success="Announcement has been updated successfully")
 
 
-def get_assignments_by_courseid(db: database_dependency, courseid: int):
+def get_assignments_by_courseid(db: database_dependency, courseid: int) -> List[AssignmentResponse]:
     """
     Fetch assignments for a specific course based on courseid.
 
@@ -347,7 +347,7 @@ def get_assignments_by_courseid(db: database_dependency, courseid: int):
     return assignments_list
 
 
-def get_quizzes_by_courseid(db: database_dependency, courseid: int):
+def get_quizzes_by_courseid(db: database_dependency, courseid: int) -> List[QuizResponse]:
     """
     Fetch quizzes for a specific course based on courseid.
 
@@ -377,7 +377,7 @@ def get_quizzes_by_courseid(db: database_dependency, courseid: int):
     return quizzes_list
 
 
-def get_announcements_by_courseid(db: database_dependency, courseid: int):
+def get_announcements_by_courseid(db: database_dependency, courseid: int) -> List[AnnouncementResponse]:
     """
     Fetch announcements for a specific course based on courseid.
 

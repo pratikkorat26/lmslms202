@@ -1,6 +1,13 @@
+from typing import List
+
 from pydantic import BaseModel
 
 
+########################################################################################
+
+
+########################################################################################
+#  "/profile", "/update_profile"
 class StudentInformation(BaseModel):
     Studentfirstname: str
     Studentlastname: str
@@ -27,21 +34,24 @@ class StudentCourseDetails(BaseModel):
     Courseid: int
     Coursename: str
     Coursedescription: str
-    Coursesemester : str
+    Coursesemester: str
+
 
 class StudentAssignments(BaseModel):
-    Courseid : int
-    Coursename : str
-    Assignmentid : int
+    Courseid: int
+    Coursename: str
+    Assignmentid: int
     Assignmentname: str
-    Assignmentdescription : str
+    Assignmentdescription: str
+
 
 class StudentQuizzes(BaseModel):
     Courseid: int
-    Coursename : str
-    Quizid : int
-    Quizname : str
-    Quizdescription : str
+    Coursename: str
+    Quizid: int
+    Quizname: str
+    Quizdescription: str
+
 
 class StudentAnnouncements(BaseModel):
     Courseid: int
@@ -50,34 +60,50 @@ class StudentAnnouncements(BaseModel):
     Announcementname: str
     Announcementdescription: str
 
-class StudentInformationCourses(BaseModel):
-    Studentid : int
-    Studentfirstname : str
-    Studentlastname : str
-    Studentcontactnumber : str
-    Courseid : int
-    Coursename : str
-    Coursesemester : str
 
 class StudentInformationDetails(BaseModel):
-    Studentid : int
-    Studentname : str
-    Studentcontactnumber : str
-    Coursename : str
-    Coursesemester : str
-    Coursegrade : str
+    Studentid: int
+    Studentname: str
+    Studentcontactnumber: str
+    Coursename: str
+    Coursesemester: str
+    Coursegrade: str
+
 
 class CourseStudentGrade(BaseModel):
     Studentid: int
     EnrollmentGrades: str
-    Studentname : str
+    Studentname: str
     EnrollmentSemester: str
     Coursename: str
 
-class CoursesForAdmin(BaseModel):
-    Courseid : int
-    Coursename : str
 
-class FacultyForAdmin(BaseModel):
-    Facultyid : int
-    Facultyname : str
+############################################ RESPONSE MODELS ############################################
+# "/view_grades"
+class StudentGradesResponse(BaseModel):
+    data: List[StudentGrades]
+
+
+# "/previous_enrollment"
+class StudentPreviousEnrollmentResponse(BaseModel):
+    data: List[StudentEnrollment]
+
+
+# "/view_contents"
+class StudentCourseDetailsResponse(BaseModel):
+    data: List[StudentCourseDetails]
+
+
+# "/view_assignment_published"
+class StudentAssignmentsResponse(BaseModel):
+    data: List[StudentAssignments]
+
+
+# "/view_quizzes_published"
+class StudentQuizzesResponse(BaseModel):
+    data: List[StudentQuizzes]
+
+
+# "/view_announcements_published"
+class StudentAnnouncementsResponse(BaseModel):
+    data: List[StudentAnnouncements]

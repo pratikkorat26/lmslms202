@@ -9,7 +9,7 @@ from alphagocanvas.database import database_dependency
 from sqlalchemy import text
 
 
-def get_student(studentid: int, db: database_dependency):
+def get_student(studentid: int, db: database_dependency) -> StudentInformation:
     """
     :param studentid: student id unique
     :param db: database_dependency
@@ -21,7 +21,7 @@ def get_student(studentid: int, db: database_dependency):
     return student
 
 
-def update_student(studentid: int, studentdata: StudentInformation, db: database_dependency):
+def update_student(studentid: int, studentdata: StudentInformation, db: database_dependency) -> StudentInformation:
     """
 
     :param studentid: student id obtained from token
@@ -175,7 +175,7 @@ def get_course_details(db: database_dependency, studentid: int) -> List[StudentC
     return published_courses_list
 
 
-def get_published_assignments(db: database_dependency, studentid: int, current_semester: str):
+def get_published_assignments(db: database_dependency, studentid: int, current_semester: str) -> List[StudentAssignments]:
     """
 
     :param db:
@@ -230,7 +230,7 @@ def get_published_assignments(db: database_dependency, studentid: int, current_s
     return assignments_list
 
 
-def get_published_quizzes(db: database_dependency, studentid: int, current_semester: str):
+def get_published_quizzes(db: database_dependency, studentid: int, current_semester: str) -> List[StudentQuizzes]:
     """
 
         :param db: database dependency
@@ -282,7 +282,7 @@ def get_published_quizzes(db: database_dependency, studentid: int, current_semes
     return quizzes_list
 
 
-def get_published_announcement(db: database_dependency, studentid: int, current_semester: str):
+def get_published_announcement(db: database_dependency, studentid: int, current_semester: str) -> List[StudentAnnouncements]:
     """
 
             :param db: database dependency

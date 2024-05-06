@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from alphagocanvas.api.models.course import CourseFacultySemesterRequest, CourseFacultySemesterResponse
-from alphagocanvas.api.models.faculty import AdminCoursesByFaculty
-from alphagocanvas.api.models.student import StudentInformationCourses, CoursesForAdmin, FacultyForAdmin
+from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, FacultyForAdmin
+
 from alphagocanvas.database import database_dependency
 from sqlalchemy import text
 
@@ -146,7 +146,7 @@ def get_students(db: database_dependency) -> List[StudentInformationCourses]:
     return student_list
 
 
-def get_courses(db: database_dependency):
+def get_courses(db: database_dependency) -> List[CoursesForAdmin]:
     """
     db : database dependency
 
@@ -164,7 +164,7 @@ def get_courses(db: database_dependency):
     return course_list
 
 
-def get_faculties(db: database_dependency):
+def get_faculties(db: database_dependency) -> List[FacultyForAdmin]:
     """
     db : database dependency
 

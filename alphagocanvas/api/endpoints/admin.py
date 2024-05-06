@@ -1,9 +1,7 @@
 from typing import Annotated, List
 
 from alphagocanvas.api.models.course import CourseFacultySemesterRequest, CourseFacultySemesterResponse
-from alphagocanvas.api.models.faculty import AdminCoursesByFaculty
-from alphagocanvas.api.models.student import StudentInformation, StudentInformationCourses, CoursesForAdmin, \
-    FacultyForAdmin
+from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, FacultyForAdmin
 from alphagocanvas.api.services.admin_service import get_courses_by_faculty, assign_course_to_faculty, get_students, \
     get_courses, get_faculties
 from alphagocanvas.api.utils.auth import is_current_user_admin, decode_token

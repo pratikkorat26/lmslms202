@@ -1,16 +1,10 @@
+from typing import List
+
 from pydantic import BaseModel
 
+from alphagocanvas.api.models.student import StudentInformationDetails, CourseStudentGrade
 
-class AdminCoursesByFaculty(BaseModel):
-    Adminid: int
-    Courseid: int
-    Facultyid: int
-    Coursename: str
-    Coursedescription: str
-    Facultyfirstname: str
-    Facultylastname: str
-    Coursesemester: str
-    Coursepublished: int
+
 
 
 class CoursesByFaculty(BaseModel):
@@ -102,3 +96,37 @@ class FacultyCourseDetails(BaseModel):
     Coursecourseid: int
     Coursesemester: str
     Coursedescription: str
+
+
+######################################### RESPONSE MODELS ########################################
+
+
+#"/courses_taught"
+class FacultyCourseTaughtResponse(BaseModel):
+    data : List[CoursesByFaculty]
+
+# ""/view_students"
+class FacultyListOfStudentsResponse(BaseModel):
+    data : List[StudentInformationDetails]
+
+
+# "/view_grades_each_student"
+class FacultyCourseStudentGradeResponse(BaseModel):
+    data : List[CourseStudentGrade]
+
+
+# "/view_assignment_by_courseid"
+class FacultyAssignmentResponse(BaseModel):
+    data: List[AssignmentResponse]
+
+# "/view_quiz_by_courseid"
+class FacultyQuizResponse(BaseModel):
+    data : List[QuizResponse]
+
+# "/view_announcement_by_courseid"
+class FacultyAnnouncementResponse(BaseModel):
+    data : List[AnnouncementResponse]
+
+# "/view_content_by_courseid"
+class FacultyCourseDetailsResponse(BaseModel):
+    data: List[FacultyCourseDetails]

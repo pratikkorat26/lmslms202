@@ -2,6 +2,7 @@ from typing import Annotated, List
 
 from alphagocanvas.api.models.student import StudentInformation, StudentGrades, StudentEnrollment, StudentCourseDetails, \
     StudentAssignments, StudentQuizzes, StudentAnnouncements
+
 from alphagocanvas.api.services.student_service import get_student, update_student, get_grades, get_enrollments, \
     get_course_details, get_published_assignments, get_published_quizzes, get_published_announcement
 from alphagocanvas.api.utils.auth import is_current_user_student, decode_token
@@ -13,7 +14,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/student", tags=["student"])
 
 
-@router.get("/profile", dependencies=[Depends(is_current_user_student)])
+@router.get("/profile", dependencies=[Depends(is_current_user_student)], response_model=StudentInformation)
 async def get_profile(db: database_dependency, token: Annotated[str, Depends(oauth2_scheme)]):
     decoded_token = decode_token(token=token)
 

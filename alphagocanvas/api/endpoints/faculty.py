@@ -8,7 +8,9 @@ from alphagocanvas.api.models.faculty import CoursesByFaculty, AddSyllabusReques
     AssignmentRequestFacultyResponse, AssignmentRequestFacultyRequest, AnnouncementRequestFacultyResponse, \
     AnnouncementRequestFacultyRequest, AssignmentResponse, QuizResponse, AnnouncementResponse, AddSyllabusResponse, \
     FacultyCourseDetails
-from alphagocanvas.api.models.student import StudentInformationDetails
+
+
+from alphagocanvas.api.models.student import StudentInformationDetails, CourseStudentGrade
 from alphagocanvas.api.services.faculty_service import get_courses_by_faculty, \
     view_students_for_each_course, view_students_for_each_course_service, update_grade_students, add_quiz_to_course, \
     add_assignment_to_course, add_announcement_to_course, get_assignments_by_courseid, get_quizzes_by_courseid, \
@@ -48,6 +50,7 @@ async def update_syllabus(params: AddSyllabusRequest, db: database_dependency, t
 
     return response
 
+
 @router.get("/view_students", dependencies=[Depends(is_current_user_faculty)],
             response_model=List[StudentInformationDetails])
 async def view_students(courseid: int,
@@ -57,15 +60,13 @@ async def view_students(courseid: int,
     if decoded_token["userrole"] != "Faculty":
         raise HTTPException(status_code=401, detail="Unauthorized method")
 
-    facultyid = decoded_token.get("userid")
-
     # Function responsible for retrieving the data
     students = view_students_for_each_course(db, courseid)
 
     return students
 
 
-@router.get("/view_grades_each_student", dependencies=[Depends(is_current_user_faculty)])
+@router.get("/view_grades_each_student", dependencies=[Depends(is_current_user_faculty)], response_model=List[CourseStudentGrade])
 async def view_grades_each_student(courseid: int,
                                    db: database_dependency,
                                    token: Annotated[str, Depends(oauth2_scheme)]):
