@@ -106,7 +106,8 @@ def view_students_for_each_course(db: database_dependency, courseid: int) -> Lis
             CONCAT(s.Studentfirstname, ' ', s.Studentlastname) AS Studentname,
             s.Studentcontactnumber,
             c.Coursename,
-            se.EnrollmentSemester
+            se.EnrollmentSemester,
+            se.EnrollmentGrades
         FROM 
             studentenrollment se
         JOIN 
@@ -129,7 +130,8 @@ def view_students_for_each_course(db: database_dependency, courseid: int) -> Lis
                                                        Studentname=student.Studentname,
                                                        Studentcontactnumber=student.Studentcontactnumber,
                                                        Coursename=student.Coursename,
-                                                       Coursesemester=student.EnrollmentSemester))
+                                                       Coursesemester=student.EnrollmentSemester,
+                                                       Coursegrade = student.EnrollmentGrades))
 
     return students_list
 

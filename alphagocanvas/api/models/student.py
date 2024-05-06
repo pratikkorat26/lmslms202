@@ -65,6 +65,7 @@ class StudentInformationDetails(BaseModel):
     Studentcontactnumber : str
     Coursename : str
     Coursesemester : str
+    Coursegrade : str
 
 class CourseStudentGrade(BaseModel):
     Studentid: int
@@ -80,4 +81,3 @@ class CoursesForAdmin(BaseModel):
 class FacultyForAdmin(BaseModel):
     Facultyid : int
     Facultyname : str
-
