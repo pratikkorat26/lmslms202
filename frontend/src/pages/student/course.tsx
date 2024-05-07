@@ -1,13 +1,13 @@
-import React, {useEffect} from "react";
-import {Helmet} from "react-helmet";
+import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import DashboardCard from "../../components/dashboardcardstudent";
-import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
-import {useParams} from "react-router-dom";
-import {Interface} from "node:readline";
+import { useParams } from "react-router-dom";
+
 interface Assignment {
     Courseid: string;
     Coursename: string;
@@ -33,7 +33,7 @@ interface Announcement {
 }
 
 interface Grade {
-    Studentid: string
+    Studentid: string;
     Courseid: string;
     Coursename: string;
     EnrollmentGrades: string;
@@ -41,53 +41,49 @@ interface Grade {
 }
 
 interface Content {
-    Courseid : string
-    Coursename : string
-    Coursedescription : string
-    Coursesemester : string
-
+    Courseid: string;
+    Coursename: string;
+    Coursedescription: string;
+    Coursesemester: string;
 }
 
 function Course() {
-
     const [courseid1, setCourseid1] = React.useState("");
     const [coursename, setCoursename] = React.useState("");
     const [coursedescription, setCoursedescription] = React.useState("");
 
-    const {courseid} = useParams();
+    const { courseid } = useParams();
 
-    const [assignments, setAssignments] = React.useState([]);
-    const [quizzes, setQuizzes] = React.useState([]);
-    const [announcements, setAnnouncements] = React.useState([]);
-    const [grades, setGrades] = React.useState([]);
-    const [contents, setContents] = React.useState([]);
+    const [assignments, setAssignments] = React.useState<Assignment[]>([]);
+    const [quizzes, setQuizzes] = React.useState<Quiz[]>([]);
+    const [announcements, setAnnouncements] = React.useState<Announcement[]>([]);
+    const [grades, setGrades] = React.useState<Grade[]>([]);
+    const [contents, setContents] = React.useState<Content[]>([]);
 
     useEffect(() => {
         fetchContents();
     }, []);
 
-
     const fetchContents = async () => {
-    try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://127.0.0.1:8000/student/view_contents", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get("http://127.0.0.1:8000/student/view_contents", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        if (response.status === 200) {
-            const contents = response.data.filter((content : Content) => content.Courseid == courseid);
-            setCourseid1(contents[0].Courseid);
-            setCoursename(contents[0].Coursename);
-            setCoursedescription(contents[0].Coursedescription);
-
+            if (response.status === 200) {
+                const contents = response.data.filter((content: Content) => content.Courseid == courseid);
+                setCourseid1(contents[0].Courseid);
+                setCoursename(contents[0].Coursename);
+                setCoursedescription(contents[0].Coursedescription);
+            }
+        } catch (error) {
+            console.error("Error fetching contents:", error);
+            throw error;
         }
-    } catch (error) {
-        console.error("Error fetching contents:", error);
-        throw error; // Re-throw the error for further handling
-    }
-};
+    };
 
     const fetchAssignments = async () => {
         try {
@@ -161,7 +157,6 @@ function Course() {
                 },
             });
             if (response.status === 200) {
-
                 const filteredGrades = response.data.filter((grade: Grade) => grade.Courseid == courseid);
                 setGrades(filteredGrades);
             }
@@ -170,33 +165,12 @@ function Course() {
         }
     };
 
-    // useEffect(() => {
-    //     fetchAssignments();
-    //     fetchQuizzes();
-    //     fetchAnnouncements();
-    //     fetchGrades();
-    // }, []);
-
-    const handleDropdownToggle = () => {
-        // Call fetchAssignments when the dropdown toggle is clicked
+    useEffect(() => {
         fetchAssignments();
-
-    };
-
-    const handleQuizzesDropdownToggle = () => {
-        // Call fetchQuizzes when the dropdown toggle for quizzes is clicked
         fetchQuizzes();
-    };
-
-    const handleAnnouncementsDropdownToggle = () => {
-        // Call fetchAnnouncements when the dropdown toggle for announcements is clicked
         fetchAnnouncements();
-    };
-
-    const handleGradesDropdownToggle = () => {
-        // Call fetchAnnouncements when the dropdown toggle for announcements is clicked
         fetchGrades();
-    };
+    }, [courseid]);
 
     return (
         <>
@@ -215,11 +189,8 @@ function Course() {
                         <div className="sidebar course-sidebar">
                             <Sidebar></Sidebar>
                         </div>
-                        <div className="main-content" style={{display: "flex"}}>
-                            {/* <div className="sidebar-course">
-                <CourseSidebar></CourseSidebar>
-              </div> */}
-                            <div style={{width: "100%", paddingLeft: "10px"}}>
+                        <div className="main-content" style={{ display: "flex" }}>
+                            <div style={{ width: "100%", paddingLeft: "10px" }}>
                                 <div className="main-title">
                                     <h5>Course</h5>
                                     <h6>Go-Canvas</h6>
@@ -234,84 +205,13 @@ function Course() {
                                         buttondisabled={true}
                                     />
 
+                                    {/* Announcements */}
                                     <div className="content-dropdown">
                                         <Accordion>
                                             <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon/>}
+                                                expandIcon={<ExpandMoreIcon />}
                                                 aria-controls="panel1-content"
                                                 id="panel1-header"
-                                                onClick={handleGradesDropdownToggle} // Call fetchGrades when the toggle is clicked
-                                            >
-                                                Grades
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Course</th>
-                                                            <th>Grades</th>
-                                                            <th>Semester</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {grades.map((grade, index) => (
-                                                            <tr key={index}>
-                                                                <td>{grade["Coursename"]}</td>
-                                                                <td>{grade["EnrollmentGrades"]}</td>
-                                                                <td>{grade["EnrollmentSemester"]}</td>
-                                                            </tr>
-                                                        ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </div>
-
-                                    <div className="content-dropdown">
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon/>}
-                                                aria-controls="panel1-content"
-                                                id="panel1-header"
-                                                onClick={handleDropdownToggle} // Call fetchAssignments when the toggle is clicked
-                                            >
-                                                Assignments
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Assignment ID</th>
-                                                            <th>Assignment Name</th>
-                                                            <th>Assignment Description</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {assignments.map((assignment) => (
-                                                            <tr key={assignment["Assignmentid"]}>
-                                                                <td>{assignment["Assignmentid"]}</td>
-                                                                <td>{assignment["Assignmentname"]}</td>
-                                                                <td>{assignment["Assignmentdescription"]}</td>
-                                                            </tr>
-                                                        ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </div>
-
-
-                                    <div className="content-dropdown">
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon/>}
-                                                aria-controls="panel1-content"
-                                                id="panel1-header"
-                                                onClick={handleAnnouncementsDropdownToggle} // Call fetchAnnouncements when the toggle is clicked
                                             >
                                                 Announcements
                                             </AccordionSummary>
@@ -319,20 +219,18 @@ function Course() {
                                                 <div>
                                                     <table>
                                                         <thead>
-                                                        <tr>
-                                                            <th>Announcement ID</th>
-                                                            <th>Announcement Name</th>
-                                                            <th>Announcement Description</th>
-                                                        </tr>
+                                                            <tr>
+                                                                <th>Announcement Name</th>
+                                                                <th>Announcement Description</th>
+                                                            </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {announcements.map((announcement) => (
-                                                            <tr key={announcement["Announcementid"]}>
-                                                                <td>{announcement["Announcementid"]}</td>
-                                                                <td>{announcement["Announcementname"]}</td>
-                                                                <td>{announcement["Announcementdescription"]}</td>
-                                                            </tr>
-                                                        ))}
+                                                            {announcements.map((announcement) => (
+                                                                <tr key={announcement["Announcementid"]}>
+                                                                    <td>{announcement["Announcementname"]}</td>
+                                                                    <td>{announcement["Announcementdescription"]}</td>
+                                                                </tr>
+                                                            ))}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -340,14 +238,13 @@ function Course() {
                                         </Accordion>
                                     </div>
 
-
+                                    {/* Quizzes */}
                                     <div className="content-dropdown">
                                         <Accordion>
                                             <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon/>}
+                                                expandIcon={<ExpandMoreIcon />}
                                                 aria-controls="panel1-content"
                                                 id="panel1-header"
-                                                onClick={handleQuizzesDropdownToggle} // Call fetchQuizzes when the toggle is clicked
                                             >
                                                 Quizzes
                                             </AccordionSummary>
@@ -355,20 +252,86 @@ function Course() {
                                                 <div>
                                                     <table>
                                                         <thead>
-                                                        <tr>
-                                                            <th>Quiz ID</th>
-                                                            <th>Quiz Name</th>
-                                                            <th>Quiz Description</th>
-                                                        </tr>
+                                                            <tr>
+                                                                <th>Quiz Name</th>
+                                                                <th>Quiz Description</th>
+                                                            </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {quizzes.map((quiz) => (
-                                                            <tr key={quiz["Quizid"]}>
-                                                                <td>{quiz["Quizid"]}</td>
-                                                                <td>{quiz["Quizname"]}</td>
-                                                                <td>{quiz["Quizdescription"]}</td>
+                                                            {quizzes.map((quiz) => (
+                                                                <tr key={quiz["Quizid"]}>
+                                                                    <td>{quiz["Quizname"]}</td>
+                                                                    <td>{quiz["Quizdescription"]}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    </div>
+
+                                    {/* Assignments */}
+                                    <div className="content-dropdown">
+                                        <Accordion>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1-content"
+                                                id="panel1-header"
+                                            >
+                                                Assignments
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <div>
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Assignment Name</th>
+                                                                <th>Assignment Description</th>
                                                             </tr>
-                                                        ))}
+                                                        </thead>
+                                                        <tbody>
+                                                            {assignments.map((assignment) => (
+                                                                <tr key={assignment["Assignmentid"]}>
+                                                                    <td>{assignment["Assignmentname"]}</td>
+                                                                    <td>{assignment["Assignmentdescription"]}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    </div>
+
+                                    {/* Grades */}
+                                    <div className="content-dropdown">
+                                        <Accordion>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1-content"
+                                                id="panel1-header"
+                                            >
+                                                Grades
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <div>
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Course</th>
+                                                                <th>Grades</th>
+                                                                <th>Semester</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {grades.map((grade, index) => (
+                                                                <tr key={index}>
+                                                                    <td>{grade["Coursename"]}</td>
+                                                                    <td>{grade["EnrollmentGrades"]}</td>
+                                                                    <td>{grade["EnrollmentSemester"]}</td>
+                                                                </tr>
+                                                            ))}
                                                         </tbody>
                                                     </table>
                                                 </div>

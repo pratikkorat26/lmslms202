@@ -61,7 +61,7 @@ function StudentList() {
                 ></div>
                 <Header></Header>
                 <div className="main-background"></div>
-                <main className="dashnoard-content">
+                <main className="dashboard-content">
                     <div className="sidebar">
                         <AdminSidebar></AdminSidebar>
                     </div>

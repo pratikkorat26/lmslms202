@@ -1,5 +1,5 @@
-import { Button, TextField } from "@mui/material";
-import React, { useEffect } from "react";
+import { Button, Switch, TextField, Tooltip, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
@@ -7,14 +7,12 @@ import axios from "axios";
 import { johnsmithside } from "../../assets/images";
 
 function AccountPage() {
-  const [firstname, setFirstName] = React.useState("");
-  const [lastname, setLastName] = React.useState("");
-  const [userid, setUserId] = React.useState("");
-  const [textState, setTextState] = React.useState("Off");
-
-  const toggleText = () => {
-    setTextState((state) => (state === "On" ? "Off" : "On"));
-  };
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [textState, setTextState] = useState("Off");
+  const [studentNotification, setStudentNotification] = useState(false);
+  const [editMode, setEditMode] = useState(false); // State to track edit mode
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -39,7 +37,8 @@ function AccountPage() {
         const data = response.data;
         setFirstName(data.Studentfirstname);
         setLastName(data.Studentlastname);
-        setUserId(data.Studentid);
+        setContactNumber(data.Studentcontactnumber);
+        setStudentNotification(data.Studentnotification);
         localStorage.setItem("profile", JSON.stringify(data));
       } else {
         throw new Error("Failed to fetch profile data");
@@ -48,8 +47,6 @@ function AccountPage() {
       console.error("Error fetching profile:", error);
     }
   };
-
-
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -60,8 +57,8 @@ function AccountPage() {
       const response = await axios.put("http://127.0.0.1:8000/student/update_profile", {
         Studentfirstname: firstname,
         Studentlastname: lastname,
-        Studentnotification: profileData.Studentnotification,
-        Studentcontactnumber: profileData.Studentcontactnumber
+        Studentcontactnumber: contactNumber,
+        Studentnotification: studentNotification,
       }, {
         headers: {
           "Content-Type": "application/json",
@@ -80,6 +77,11 @@ function AccountPage() {
     }
   };
 
+  const toggleText = () => {
+    setTextState((state) => (state === "On" ? "Off" : "On"));
+    setEditMode((prevState) => !prevState); // Toggle edit mode
+  };
+
   return (
     <>
       <Helmet>
@@ -90,7 +92,7 @@ function AccountPage() {
         <div className="search-overlay" onClick={(e) => document.body.classList.toggle("search-open")}></div>
         <Header></Header>
         <div className="main-background"></div>
-        <main className="dashnoard-content">
+        <main className="dashboard-content">
           <div className="sidebar">
             <Sidebar></Sidebar>
           </div>
@@ -101,39 +103,71 @@ function AccountPage() {
             </div>
             <div className="innerpage-table table">
               <div className="card">
+              <div style={{ display: "flex", alignItems: "center", justifyContent:'end' }}>
+                  {/* Render Switch only in edit mode */}
+                  {editMode && (
+                    <Tooltip title={studentNotification ? "Disable Notification" : "Enable Notification"}>
+                      <Switch
+                        checked={studentNotification}
+                        onChange={() => setStudentNotification(prevState => !prevState)}
+                      />
+                    </Tooltip>
+                  )}
+                  <Button variant="contained" onClick={toggleText} style={{ marginLeft: "10px" }}>
+                    {textState === 'Off' ? 'Edit' : 'Cancel'}
+                  </Button>
+                </div>
                 <div className="profile">
                   <div className="profile-img">
                     <img src={johnsmithside} alt="john-smith" />
                   </div>
                   <h6>{firstname}  {lastname}</h6>
                 </div>
-                <div style={{ right: "10px", position: "absolute" }}>
-                  <Button variant="contained" onClick={toggleText}>{textState == 'Off' ? 'Edit' : 'Cancel'}</Button>
-                </div>
-                {textState == 'On' ? (
+                
+                {textState === 'On' ? (
                   <div>
-                    <TextField
-                      id="standard-basic"
-                      label="First Name"
-                      variant="standard"
-                      value={firstname}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <TextField
-                      id="standard-basic"
-                      label="Last Name"
-                      variant="standard"
-                      value={lastname}
-                      onChange={e => setLastName(e.target.value)}
-                    />
+                    <div>
+                      <Typography variant="body1">First Name:</Typography>
+                      <TextField
+                        variant="standard"
+                        value={firstname}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="body1">Last Name:</Typography>
+                      <TextField
+                        variant="standard"
+                        value={lastname}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="body1">Contact No.:</Typography>
+                      <TextField
+                        variant="standard"
+                        value={contactNumber}
+                        onChange={(e) => setContactNumber(e.target.value)}
+                      />
+                    </div>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <Button variant="contained" onClick={handleSubmit}>Save Changes</Button>
                     </div>
                   </div>
                 ) : (
                   <div>
-                    {firstname} <br />
-                    {lastname}
+                    <div style={{display:'flex', alignItems:'center'}}>
+                      <Typography variant="body1">First Name:</Typography>
+                      <span>{firstname}</span>
+                    </div>
+                    <div style={{display:'flex', alignItems:'center'}}>
+                      <Typography variant="body1">Last Name:</Typography>
+                      <span>{lastname}</span>
+                    </div>
+                    <div style={{display:'flex', alignItems:'center'}}>
+                      <Typography variant="body1">Contact No:</Typography>
+                      <span>{contactNumber}</span>
+                    </div>
                   </div>
                 )}
               </div>

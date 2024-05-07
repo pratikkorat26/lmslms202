@@ -125,7 +125,7 @@ a{text-decoration: none;}
 
 /*-----------------Dashboard-Page---------------*/
 .wrapper{min-height: 100vh;position: relative;}
-.dashnoard-content{background: #F3F5F7;min-height: 100vh;display: flex;padding:30px 15px 30px 10px;width: 100%;}
+.dashboard-content{background: #F3F5F7;min-height: 100vh;display: flex;padding:30px 15px 30px 10px;width: 100%;}
 .main-background{background: #75CA67;height: 90px;width: 100%;z-index: 0;position: absolute;}
 .sidebar {max-width: 160px;min-height: 100vh;background: #ffffff;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);flex-grow: 0;flex-shrink: 0;flex-basis: 160px;padding:16px 0;position: relative;border-radius: 6px;}
 .main-content {max-width: calc(100% - 160px);flex-basis: calc(100% - 160px);flex-grow: 0;flex-shrink: 0;padding-left: 20px;position: relative;padding-top: 10px;}
@@ -309,7 +309,7 @@ a{text-decoration: none;}
   .search-box input{width: 500px;}
   .sidebar{max-width: 220px;flex-basis: 220px;}
   .main-content{max-width: calc(100% - 220px);flex-basis: calc(100% - 220px);}
-  .dashnoard-content{padding: 30px 20px;}
+  .dashboard-content{padding: 30px 20px;}
   .selling-details h3{font-size: 24px;line-height: 32px;}
   .selling-icon{margin-right: 12px;}
   .order-card, .profit-card{padding: 48px 10px;justify-content: center;}
@@ -321,7 +321,7 @@ a{text-decoration: none;}
 @media (max-width:1199px) {
 .search-box input{width: 400px;}
 .main-background{height: 70px;}
-.dashnoard-content {padding: 25px 20px;}
+.dashboard-content {padding: 25px 20px;}
 .sidebar {display: block;position: fixed;z-index: 10;top: 0;width: 260px;bottom: 0;padding: 30px 0 0;overflow: auto;left: -260px;transition: all 0.4s ease;max-width: 260px;flex-basis: 260px;}
 .sidebar-open .sidebar{left: 0;border-radius: 0;}
 .sidebar-open .overlay {opacity: 1;visibility: visible;}
@@ -370,7 +370,7 @@ a{text-decoration: none;}
   .MuiTablePagination-root .MuiTablePagination-displayedRows{flex-basis: 100%;max-width: 100%;text-align: center;}
   .MuiTablePagination-root .MuiToolbar-root.MuiTablePagination-toolbar .MuiTablePagination-actions{margin: 0;}
   .MuiTablePagination-root .MuiInputBase-root.MuiInputBase-colorPrimary{margin: 0;}
-  .dashnoard-content {padding: 25px 15px;}
+  .dashboard-content {padding: 25px 15px;}
   .MuiGrid-root.MuiGrid-item.profit-grid{padding-left: 0;}
   .MuiGrid-root.MuiGrid-item.statistics-grid{width: 100%;}
   .selling-details h3{font-size: 20px;line-height: 26px;}

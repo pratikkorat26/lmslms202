@@ -23,7 +23,6 @@ function CourseStudentList() {
                 );
                 if (response.status === 200) {
                     setStudents(response.data);
-                    console.log(students);
                 } else {
                     console.error("Failed to fetch students:", response.statusText);
                 }
@@ -49,7 +48,7 @@ function CourseStudentList() {
                 ></div>
                 <Header></Header>
                 <div className="main-background"></div>
-                <main className="dashnoard-content">
+                <main className="dashboard-content">
                     <div className="sidebar">
                         <FacultySidebar></FacultySidebar>
                     </div>

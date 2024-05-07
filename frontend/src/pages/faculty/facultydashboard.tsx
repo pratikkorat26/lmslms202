@@ -74,7 +74,7 @@ function FacultyDashboard() {
         ></div>
         <Header />
         <div className="main-background"></div>
-        <main className="dashnoard-content">
+        <main className="dashboard-content">
           <div className="main-content" style={{flexBasis:'100%',maxWidth:'100%'}}>
             <div className="main-title">
               <h5>Dashboard</h5>

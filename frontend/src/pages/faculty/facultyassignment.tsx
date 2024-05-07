@@ -18,6 +18,7 @@ interface AssignmentData {
 }
 
 function AddAssignment() {
+  const token = localStorage.getItem("token");
   const { courseid } = useParams();
   
   // Providing a default value for courseid if it's undefined
@@ -37,9 +38,8 @@ function AddAssignment() {
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+              Authorization: `Bearer ${token}`,
+          },
           }
         );
         if (response.ok) {
@@ -130,7 +130,7 @@ function AddAssignment() {
         ></div>
         <Header></Header>
         <div className="main-background"></div>
-        <main className="dashnoard-content">
+        <main className="dashboard-content">
           <div className="sidebar">
             <FacultySidebar></FacultySidebar>
           </div>

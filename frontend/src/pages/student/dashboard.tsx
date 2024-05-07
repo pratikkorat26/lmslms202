@@ -82,7 +82,7 @@ function DashboardPage() {
                 <div className="overlay" onClick={(e) => document.body.classList.toggle("sidebar-open")}></div>
                 <Header/>
                 <div className="main-background"></div>
-                <main className="dashnoard-content">
+                <main className="dashboard-content">
                     <div className="sidebar">
                         <Sidebar/>
                     </div>
