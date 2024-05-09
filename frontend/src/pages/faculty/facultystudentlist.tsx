@@ -38,7 +38,7 @@ function CourseStudentList() {
     return (
         <>
             <Helmet>
-                <title>Dashboard-Faculty</title>
+                <title>Students</title>
             </Helmet>
             {/* Dashboardpage-Start */}
             <div className="wrapper">

@@ -129,7 +129,7 @@ function AddAnnouncement() {
   return (
     <>
       <Helmet>
-        <title>Dashboard-Faculty</title>
+        <title>Announcement</title>
       </Helmet>
       <div className="wrapper">
         <div

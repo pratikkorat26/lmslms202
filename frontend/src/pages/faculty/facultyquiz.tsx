@@ -121,7 +121,7 @@ function AddQuiz() {
   return (
     <>
       <Helmet>
-        <title>Dashboard-Faculty</title>
+        <title>Quizzes</title>
       </Helmet>
       <div className="wrapper">
         <div

@@ -113,7 +113,7 @@ function AddSyllabus() {
   return (
     <>
       <Helmet>
-        <title>Dashboard-Faculty</title>
+        <title>Syllabus</title>
       </Helmet>
       <div className="wrapper">
         <div

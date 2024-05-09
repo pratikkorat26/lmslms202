@@ -114,7 +114,7 @@ function AssignGrades() {
   return (
     <>
       <Helmet>
-        <title>Assign-Grades</title>
+        <title>Grades</title>
       </Helmet>
       <div className="wrapper">
         <div

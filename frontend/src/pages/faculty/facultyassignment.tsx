@@ -121,7 +121,7 @@ function AddAssignment() {
   return (
     <>
       <Helmet>
-        <title>Dashboard-Faculty</title>
+        <title>Assignment</title>
       </Helmet>
       <div className="wrapper">
         <div

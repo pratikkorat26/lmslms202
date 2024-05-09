@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import DashboardCard from "../../components/dashboardcardstudent";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -175,7 +175,7 @@ function Course() {
     return (
         <>
             <Helmet>
-                <title>Test</title>
+                <title>Course Home</title>
             </Helmet>
             <div className="wrapper">
                 <div
@@ -216,24 +216,22 @@ function Course() {
                                                 Announcements
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Announcement Name</th>
-                                                                <th>Announcement Description</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {announcements.map((announcement) => (
-                                                                <tr key={announcement["Announcementid"]}>
-                                                                    <td>{announcement["Announcementname"]}</td>
-                                                                    <td>{announcement["Announcementdescription"]}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <Table>
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell>Announcement Name</TableCell>
+                                                            <TableCell>Announcement Description</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {announcements.map((announcement) => (
+                                                            <TableRow key={announcement["Announcementid"]}>
+                                                                <TableCell>{announcement["Announcementname"]}</TableCell>
+                                                                <TableCell>{announcement["Announcementdescription"]}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
                                             </AccordionDetails>
                                         </Accordion>
                                     </div>
@@ -249,24 +247,22 @@ function Course() {
                                                 Quizzes
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Quiz Name</th>
-                                                                <th>Quiz Description</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {quizzes.map((quiz) => (
-                                                                <tr key={quiz["Quizid"]}>
-                                                                    <td>{quiz["Quizname"]}</td>
-                                                                    <td>{quiz["Quizdescription"]}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <Table>
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell>Quiz Name</TableCell>
+                                                            <TableCell>Quiz Description</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {quizzes.map((quiz) => (
+                                                            <TableRow key={quiz["Quizid"]}>
+                                                                <TableCell>{quiz["Quizname"]}</TableCell>
+                                                                <TableCell>{quiz["Quizdescription"]}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
                                             </AccordionDetails>
                                         </Accordion>
                                     </div>
@@ -282,24 +278,22 @@ function Course() {
                                                 Assignments
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Assignment Name</th>
-                                                                <th>Assignment Description</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {assignments.map((assignment) => (
-                                                                <tr key={assignment["Assignmentid"]}>
-                                                                    <td>{assignment["Assignmentname"]}</td>
-                                                                    <td>{assignment["Assignmentdescription"]}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <Table>
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell>Assignment Name</TableCell>
+                                                            <TableCell>Assignment Description</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {assignments.map((assignment) => (
+                                                            <TableRow key={assignment["Assignmentid"]}>
+                                                                <TableCell>{assignment["Assignmentname"]}</TableCell>
+                                                                <TableCell>{assignment["Assignmentdescription"]}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
                                             </AccordionDetails>
                                         </Accordion>
                                     </div>
@@ -315,26 +309,24 @@ function Course() {
                                                 Grades
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <div>
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Course</th>
-                                                                <th>Grades</th>
-                                                                <th>Semester</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {grades.map((grade, index) => (
-                                                                <tr key={index}>
-                                                                    <td>{grade["Coursename"]}</td>
-                                                                    <td>{grade["EnrollmentGrades"]}</td>
-                                                                    <td>{grade["EnrollmentSemester"]}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <Table>
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell>Course</TableCell>
+                                                            <TableCell>Grades</TableCell>
+                                                            <TableCell>Semester</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {grades.map((grade, index) => (
+                                                            <TableRow key={index}>
+                                                                <TableCell>{grade["Coursename"]}</TableCell>
+                                                                <TableCell>{grade["EnrollmentGrades"]}</TableCell>
+                                                                <TableCell>{grade["EnrollmentSemester"]}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
                                             </AccordionDetails>
                                         </Accordion>
                                     </div>
