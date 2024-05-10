@@ -1,10 +1,8 @@
-from fastapi.security import OAuth2PasswordRequestForm
-
-from alphagocanvas.database.models import UserTable
 from alphagocanvas.database import database_dependency
+from alphagocanvas.database.models import UserTable
 
 
-def get_user(email : str, db: database_dependency):
+def get_user(email: str, db: database_dependency):
     """
     :param email: email from the authentication form
     :param db: database_dependency

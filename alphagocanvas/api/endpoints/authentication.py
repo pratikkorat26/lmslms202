@@ -1,6 +1,8 @@
 from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+
 from alphagocanvas.api.models.token import TokenData, Token
 from alphagocanvas.api.services.authentication_service import get_user
 from alphagocanvas.api.utils import create_token

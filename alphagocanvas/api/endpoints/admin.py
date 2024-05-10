@@ -1,13 +1,15 @@
 from typing import Annotated, List
 
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+
+from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, \
+    FacultyForAdmin
 from alphagocanvas.api.models.course import CourseFacultySemesterRequest, CourseFacultySemesterResponse
-from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, FacultyForAdmin
 from alphagocanvas.api.services.admin_service import get_courses_by_faculty, assign_course_to_faculty, get_students, \
     get_courses, get_faculties
 from alphagocanvas.api.utils.auth import is_current_user_admin, decode_token
-from fastapi import APIRouter, Depends, HTTPException
 from alphagocanvas.database import database_dependency
-from fastapi.security import OAuth2PasswordBearer
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/admin", tags=["admin"])

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from pydantic import BaseModel
 
 
@@ -12,4 +10,4 @@ class TokenData(BaseModel):
     useremail: str
     userpassword: str
     userrole: str
-    userid : int
+    userid: int

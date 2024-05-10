@@ -8,8 +8,6 @@ from alphagocanvas.api.models.faculty import CoursesByFaculty, AddSyllabusReques
     AssignmentRequestFacultyResponse, AssignmentRequestFacultyRequest, AnnouncementRequestFacultyResponse, \
     AnnouncementRequestFacultyRequest, AssignmentResponse, QuizResponse, AnnouncementResponse, AddSyllabusResponse, \
     FacultyCourseDetails
-
-
 from alphagocanvas.api.models.student import StudentInformationDetails, CourseStudentGrade
 from alphagocanvas.api.services.faculty_service import get_courses_by_faculty, \
     view_students_for_each_course, view_students_for_each_course_service, update_grade_students, add_quiz_to_course, \
@@ -66,7 +64,8 @@ async def view_students(courseid: int,
     return students
 
 
-@router.get("/view_grades_each_student", dependencies=[Depends(is_current_user_faculty)], response_model=List[CourseStudentGrade])
+@router.get("/view_grades_each_student", dependencies=[Depends(is_current_user_faculty)],
+            response_model=List[CourseStudentGrade])
 async def view_grades_each_student(courseid: int,
                                    db: database_dependency,
                                    token: Annotated[str, Depends(oauth2_scheme)]):
@@ -184,6 +183,7 @@ async def view_announcement_by_courseid(courseid: int, db: database_dependency, 
     data = get_announcements_by_courseid(db, courseid=courseid)
 
     return data
+
 
 @router.get("/view_content_by_courseid", dependencies=[Depends(is_current_user_faculty)],
             response_model=List[FacultyCourseDetails])

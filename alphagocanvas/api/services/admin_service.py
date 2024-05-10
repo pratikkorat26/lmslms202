@@ -1,14 +1,12 @@
 from typing import List
 
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
-
-from alphagocanvas.api.models.course import CourseFacultySemesterRequest, CourseFacultySemesterResponse
-from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, FacultyForAdmin
-
-from alphagocanvas.database import database_dependency
 from sqlalchemy import text
 
+from alphagocanvas.api.models.admin import AdminCoursesByFaculty, StudentInformationCourses, CoursesForAdmin, \
+    FacultyForAdmin
+from alphagocanvas.api.models.course import CourseFacultySemesterRequest, CourseFacultySemesterResponse
+from alphagocanvas.database import database_dependency
 from alphagocanvas.database.models import CourseFacultyTable, CourseTable, FacultyTable
 
 

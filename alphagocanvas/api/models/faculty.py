@@ -5,8 +5,6 @@ from pydantic import BaseModel
 from alphagocanvas.api.models.student import StudentInformationDetails, CourseStudentGrade
 
 
-
-
 class CoursesByFaculty(BaseModel):
     Courseid: int
     Coursename: str
@@ -101,31 +99,35 @@ class FacultyCourseDetails(BaseModel):
 ######################################### RESPONSE MODELS ########################################
 
 
-#"/courses_taught"
+# "/courses_taught"
 class FacultyCourseTaughtResponse(BaseModel):
-    data : List[CoursesByFaculty]
+    data: List[CoursesByFaculty]
+
 
 # ""/view_students"
 class FacultyListOfStudentsResponse(BaseModel):
-    data : List[StudentInformationDetails]
+    data: List[StudentInformationDetails]
 
 
 # "/view_grades_each_student"
 class FacultyCourseStudentGradeResponse(BaseModel):
-    data : List[CourseStudentGrade]
+    data: List[CourseStudentGrade]
 
 
 # "/view_assignment_by_courseid"
 class FacultyAssignmentResponse(BaseModel):
     data: List[AssignmentResponse]
 
+
 # "/view_quiz_by_courseid"
 class FacultyQuizResponse(BaseModel):
-    data : List[QuizResponse]
+    data: List[QuizResponse]
+
 
 # "/view_announcement_by_courseid"
 class FacultyAnnouncementResponse(BaseModel):
-    data : List[AnnouncementResponse]
+    data: List[AnnouncementResponse]
+
 
 # "/view_content_by_courseid"
 class FacultyCourseDetailsResponse(BaseModel):

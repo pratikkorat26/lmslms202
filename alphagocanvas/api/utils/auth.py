@@ -1,4 +1,3 @@
-from alphagocanvas.config import SECRET_KEY, ALGORITHM
 from typing import Annotated
 
 from fastapi import Depends, HTTPException
@@ -7,6 +6,7 @@ from jose import jwt
 from starlette import status
 
 from alphagocanvas.api.models import TokenData
+from alphagocanvas.config import SECRET_KEY, ALGORITHM
 from alphagocanvas.database import database_dependency, UserTable
 
 # Bearer token authentication system
@@ -68,7 +68,6 @@ async def is_current_user_faculty(current_user: UserTable = Depends(get_current_
 
     """
     return current_user.Userrole == "Faculty"
-
 
 
 def create_token(token: TokenData):

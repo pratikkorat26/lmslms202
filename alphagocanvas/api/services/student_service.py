@@ -1,12 +1,12 @@
 from typing import List
 
 from fastapi import HTTPException
+from sqlalchemy import text
 
 from alphagocanvas.api.models.student import StudentGrades, StudentInformation, StudentEnrollment, StudentCourseDetails, \
     StudentAssignments, StudentQuizzes, StudentAnnouncements
-from alphagocanvas.database.models import StudentTable, CourseTable
 from alphagocanvas.database import database_dependency
-from sqlalchemy import text
+from alphagocanvas.database.models import StudentTable
 
 
 def get_student(studentid: int, db: database_dependency) -> StudentInformation:
@@ -175,7 +175,8 @@ def get_course_details(db: database_dependency, studentid: int) -> List[StudentC
     return published_courses_list
 
 
-def get_published_assignments(db: database_dependency, studentid: int, current_semester: str) -> List[StudentAssignments]:
+def get_published_assignments(db: database_dependency, studentid: int, current_semester: str) -> List[
+    StudentAssignments]:
     """
 
     :param db:
@@ -282,7 +283,8 @@ def get_published_quizzes(db: database_dependency, studentid: int, current_semes
     return quizzes_list
 
 
-def get_published_announcement(db: database_dependency, studentid: int, current_semester: str) -> List[StudentAnnouncements]:
+def get_published_announcement(db: database_dependency, studentid: int, current_semester: str) -> List[
+    StudentAnnouncements]:
     """
 
             :param db: database dependency
