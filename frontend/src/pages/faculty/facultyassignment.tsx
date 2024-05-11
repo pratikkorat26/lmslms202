@@ -20,14 +20,15 @@ interface AssignmentData {
 function AddAssignment() {
   const token = localStorage.getItem("token");
   const { courseid } = useParams();
-  
-  // Providing a default value for courseid if it's undefined
-  const courseId = courseid || ""; 
+
+  const courseId = courseid || "";
 
   const [showForm, setShowForm] = useState(false);
   const [assignmentName, setAssignmentName] = useState("");
   const [assignmentDescription, setAssignmentDescription] = useState("");
-  const [savedAssignments, setSavedAssignments] = useState<AssignmentData[]>([]);
+  const [savedAssignments, setSavedAssignments] = useState<AssignmentData[]>(
+    []
+  );
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -39,12 +40,12 @@ function AddAssignment() {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
-          },
+            },
           }
         );
         if (response.ok) {
           const data = await response.json();
-          setSavedAssignments(data); // Assuming data is an array of assignments
+          setSavedAssignments(data);
         } else {
           setError("Failed to fetch assignments");
         }
@@ -71,7 +72,7 @@ function AddAssignment() {
             Courseid: courseId,
             Assignmentname: assignmentName,
             Assignmentdescription: assignmentDescription,
-            Semester: "SPRING24", // You may adjust this value based on your requirements
+            Semester: "SPRING24",
           }),
         }
       );
@@ -94,7 +95,6 @@ function AddAssignment() {
       setError("Failed to add assignment");
     }
   };
-  
 
   const handleAddAssignmentClick = () => {
     setShowForm(true);
@@ -196,20 +196,23 @@ function AddAssignment() {
                   <Typography>Assignments</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-  <div>
-    {savedAssignments.map((assignment, index) => (
-      <div key={index} style={{ borderBottom: "1px solid grey" }}>
-        <h3>
-          Assignment {index + 1}: {assignment.Assignmentname}
-        </h3>
-        <p>
-          <strong>Description:</strong> {assignment.Assignmentdescription}
-        </p>
-      </div>
-    ))}
-  </div>
-</AccordionDetails>
-
+                  <div>
+                    {savedAssignments.map((assignment, index) => (
+                      <div
+                        key={index}
+                        style={{ borderBottom: "1px solid grey" }}
+                      >
+                        <h3>
+                          Assignment {index + 1}: {assignment.Assignmentname}
+                        </h3>
+                        <p>
+                          <strong>Description:</strong>{" "}
+                          {assignment.Assignmentdescription}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionDetails>
               </Accordion>
             </div>
           </div>

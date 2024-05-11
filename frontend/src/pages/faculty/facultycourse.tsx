@@ -55,14 +55,14 @@ interface Course {
   Coursename: string;
   Coursedescription: string;
   Coursesemester: string;
-  Coursepublished: boolean; // Add this property
+  Coursepublished: boolean;
 }
 
 function CourseFaculty() {
     const courseid = useParams().courseid;
     localStorage.setItem("courseid", courseid || "");
 
-    const [currentSemesterData, setCurrentSemesterData] = useState<Course[]>([]); // Explicitly define type as Course[]
+    const [currentSemesterData, setCurrentSemesterData] = useState<Course[]>([]);
 
     const fetchCourses = async () => {
     try {
@@ -70,7 +70,7 @@ function CourseFaculty() {
       const response = await axios.get<Course[]>(
         "http://127.0.0.1:8000/faculty/courses_taught",
         {
-          // Specify the response type as Course[]
+  
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -102,7 +102,7 @@ return (
       <Helmet>
         <title>Dashboard</title>
       </Helmet>
-      {/* Dashboardpage-Start */}
+      {/* Faculty-CoursePage-Start */}
       <div className="wrapper">
         <div
           className="overlay"
@@ -143,7 +143,7 @@ return (
           </div>
         </main>
       </div>
-      {/* Dashboardpage-End */}
+      {/* Faculty-CoursePage-End */}
     </>
   );
 }
