@@ -1,0 +1,5 @@
+branch-defaults:
+  cp:
+    environment: Fastapideploy-env
+global:
+  profile: eb-cli
