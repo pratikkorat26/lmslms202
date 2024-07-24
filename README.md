@@ -1,1 +1,1 @@
-This is final reposityory for AlphaGo team for canvas learning management system
+This is a learning manangement project
